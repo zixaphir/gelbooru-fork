@@ -76,7 +76,14 @@
 			<div style="display: none; top: '.($retme['width']+$retme['y']+5).'px; left: '.$retme['x'].'px;" class="note-body" id="note-body-'.$retme['id'].'" title="Click to edit">'.$retme['body'].'</div>
 			';
 		}
-		echo '<img alt="img" src="f6ca1c7d5d00a2a3fb4ea2f7edfa0f96a6d09c11717f39facabad2d724f16fbb/images/'.$post_data['directory'].'/'.$post_data['image'].'" id="image" onclick="Note.toggle();" style="margin-right: 70px;"/><br />Posted on '.$post_data['creation_date'].' by  <a href="index.php?page=account_profile&amp;uname='.$post_data['owner'].'">'.$post_data['owner'].'</a><br /><p id="note-count"></p>
+		if (preg_match("/\.webm$/", $post_data['image']) == 1) {
+			echo '<video alt="video" id="video" loop controls preload src="f6ca1c7d5d00a2a3fb4ea2f7edfa0f96a6d09c11717f39facabad2d724f16fbb/images/'.$post_data['directory'].'/'.$post_data['image'].'" style="margin-right: 70px;"></video>';
+		}
+		else
+		{
+			echo '<img alt="img" id="image" onclick="Note.toggle();" src="f6ca1c7d5d00a2a3fb4ea2f7edfa0f96a6d09c11717f39facabad2d724f16fbb/images/'.$post_data['directory'].'/'.$post_data['image'].'" style="margin-right: 70px;"/>';
+		}
+		echo '<br />Posted on '.$post_data['creation_date'].' by  <a href="index.php?page=account_profile&amp;uname='.$post_data['owner'].'">'.$post_data['owner'].'</a><br /><p id="note-count"></p>
 		<script type="text/javascript">
 		//<![CDATA[
 		Note.post_id = '.$id.';';

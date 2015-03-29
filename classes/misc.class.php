@@ -215,6 +215,7 @@
 		
 		function pagination($page_type,$sub = false,$id = false,$limit = false,$page_limit = false,$count = false,$page = false,$tags = false, $query = false)
 		{
+			$lowerlimit = 0;
 			$has_id = "";
 			if(isset($id) && $id > 0)
 				$has_id = '&amp;id='.$id.'';

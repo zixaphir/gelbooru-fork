@@ -1,10 +1,12 @@
 <?php
 	//die("Maintenance mode. please try again in 1 hour.");
-	error_reporting(0);
-	ignore_user_abort(1);
+	//error_reporting(0);
+	//ignore_user_abort(1);
 	$misc = new misc();
 	$userc = new user();
 	$ip = $db->real_escape_string($_SERVER['REMOTE_ADDR']);	
+	$error = '';
+	$no_upload = false;
 	if($userc->banned_ip($ip))
 	{
 		print "Action failed: ".$row['reason'];
@@ -25,12 +27,11 @@
 		print "You do not have permission to upload.";
 		exit;
 	}
-	if(isset($_POST['submit']))
+	if($_SERVER['REQUEST_METHOD'] == 'POST')
 	{
 		$image = new image();
 		$uploaded_image = false;
 		$parent = '';
-		$error = '';
 		if(empty($_FILES['upload']) && isset($_POST['source']) && $_POST['source'] != "" && substr($_POST['source'],0,4) == "http" || $_FILES['upload']['error'] != 0 && isset($_POST['source']) && $_POST['source'] != "" && substr($_POST['source'],0,4) == "http")
 		{
 			$iinfo = $image->getremoteimage($_POST['source']);
@@ -48,7 +49,9 @@
 				$uploaded_image = true;
 		}
 		else
+		{
 			print "No image given for upload.";
+		}
 		if($uploaded_image == true)
 		{
 			$iinfo = explode(":",$iinfo);
@@ -59,7 +62,7 @@
 			$title = $db->real_escape_string(htmlentities($_POST['title'],ENT_QUOTES,'UTF-8'));
 			$tags = strtolower($db->real_escape_string(str_replace('%','',mb_strtolower(mb_trim(htmlentities($_POST['tags'],ENT_QUOTES,'UTF-8'))))));
 			$ttags = explode(" ",$tags);
-			$tag_count = count($ttags);		
+			$tag_count = count($ttags);
 			if($tag_count == 0)
 				$ttags[] = "tagme";
 			if($tag_count < 5 && strpos(implode(" ",$ttags),"tagme") === false)

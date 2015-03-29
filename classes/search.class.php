@@ -3,9 +3,9 @@
 	{
 		function __construct()
 		{
-		
+
 		}
-		
+
 		function prepare_tags($search)
 		{
 			global $db, $post_table;
@@ -19,7 +19,7 @@
 			$g_owner = '';
 			$g_tags = '';
 			$g_parent = '';
-			
+
 			foreach($ttags as $current)
 			{
 				if(strpos(strtolower($current),'parent:') !== false)
@@ -27,7 +27,7 @@
 					$g_parent = str_replace("parent:","",$current);
 					$parent = " AND id='$g_parent'";
  					if(!is_numeric($g_parent))
-						$g_parent = '';					
+						$g_parent = '';
 					else
 						$g_parent = " AND parent='$g_parent'";
 					$current = '';
@@ -122,7 +122,7 @@
 										$g_tags .= ' +" '.$current.' "';
 									else
 										$g_tags .= ' + '.$current.' ';
-								}	
+								}
 							}
 						}
 					}
@@ -134,7 +134,13 @@
 					$parent_patch = "OR (MATCH(tags) AGAINST('$g_tags' IN BOOLEAN MODE)>0.9) $parent $g_owner $g_rating";
 				else
 					$parent_patch = " AND parent='0'";
-				$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE (MATCH(tags) AGAINST('$g_tags' IN BOOLEAN MODE)>0.9) $g_parent $g_owner $g_rating $parent_patch ORDER BY id DESC";
+				$neg_search = !strpos($g_tags,"+");
+				if ($neg_search) {
+					$g_tags = preg_replace("/\-/", "", $g_tags);
+					$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE NOT (MATCH(tags) AGAINST('$g_tags' IN BOOLEAN MODE)>0.9) $g_parent $g_owner $g_rating $parent_patch ORDER BY id DESC";
+				} else {
+					$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE (MATCH(tags) AGAINST('$g_tags' IN BOOLEAN MODE)>0.9) $g_parent $g_owner $g_rating $parent_patch ORDER BY id DESC";
+				}
 			}
 			else if($g_parent != "" || $g_owner != "" || $g_rating != "")
 			{
@@ -143,14 +149,14 @@
 					$g_parent = str_replace('AND',"",$g_parent);
 					$parent = substr($parent,4,strlen($parent));
 					$parent_patch = "OR $parent $g_owner $g_rating";
-				}				
+				}
 				else if($g_owner != "")
 					$g_owner = str_replace('AND',"",$g_owner);
 				else if($g_rating != "")
 					$g_rating = substr($g_rating,4,strlen($g_rating));
 				if($g_parent == "")
 					$parent_patch = " AND parent='0'";
-				$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE $g_parent $g_owner $g_rating $parent_patch ORDER BY id DESC";			
+				$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE $g_parent $g_owner $g_rating $parent_patch ORDER BY id DESC";
 			}
 			else
 			{
@@ -162,10 +168,11 @@
 				}
 				else
 					$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table ORDER BY id DESC";
-			}			
+			}
+			echo '<!-- '.$query.'-->';
 			return $query;
 		}
-		
+
 		function search_tags_count($search)
 		{
 			global $post_table;
@@ -173,7 +180,7 @@
 			$query = "SELECT COUNT(*) FROM $post_table".$search;
 			return $query;
 		}
-		
+
 		function search_tags($search,$condition)
 		{
 			global $post_table;
