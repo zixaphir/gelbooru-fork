@@ -1,0 +1,12 @@
+<SEARCH
+	name="Gelbooru"
+	description="Gelbooru Search"
+	action="http://gelbooru.com/"	   
+	showif=""
+	queryCharset="UTF-8"
+	method="GET"
+>
+<input name="page" value="post">
+<input name="s" value="list">
+<input name="tags" user>
+</search>

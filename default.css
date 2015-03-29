@@ -1,0 +1,944 @@
+* {
+  font-family: verdana,sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+body {
+  font: 80% verdana, sans-serif;
+  background: #fff;
+  padding: 1em 2em;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.8em;
+}
+
+h3 {
+  font-size: 1.6em;
+}
+
+h4 {
+  font-size: 1.4em;
+}
+
+h5 {
+  font-size: 1.2em;
+}
+
+h6 {
+  font-size: 1em;
+}
+
+img {
+  border: none;
+  vertical-align: middle;
+}
+
+input {
+  padding: 0 0.5em;
+}
+
+a:link {
+  color: #006FFA;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #006FFA;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #33CFFF;
+  text-decoration: none;
+}
+
+a:active {
+  color: #006FFA;
+  text-decoration: none;
+}
+
+a.spoilers {
+  color: black;
+  background: black;
+  cursor: text;
+}
+
+a.spoilers:hover {
+  color: black;
+  background: white;
+}
+
+a.help {
+  background: #E6E6E6;
+}
+
+.link {
+  color: #006FFA;
+  background: none;
+  border: none;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: #33CFFF;
+}
+
+label {
+  font-weight: bold;
+  padding-right: 2em;
+}
+
+strong.divider {
+  font-weight: bold;
+  color: gray;
+}
+
+span.author {
+  color: #AAA;
+}
+
+span.date {
+  color: #AAA;
+}
+
+span.locked-topic {
+  color: #666;
+}
+
+th {
+  font-weight: bold;
+  text-align: left;
+  background-color: #006ffa;
+  color: white;
+  padding: 0.2em 0.5em;
+  white-space: nowrap;
+}
+
+th a, th a:link, th a:visited {
+  color: rgb(250, 250, 255);
+}
+
+tr.padded th {
+  padding: 0 1em;
+}
+
+table.highlightable > tbody > tr:hover {
+  background: #FFD;
+}
+
+tr.even {
+  background: #ffffff;
+}
+
+tr.odd {
+  background: #f0f0f0;
+}
+
+tr.pending-tag {
+  background: #dcf6dc;
+}
+
+td {
+  padding: 1px 4px; vertical-align: top;
+}
+
+fieldset {
+  border: 1px dashed gray;
+  margin-bottom: 1em;
+  padding: 0.5em 1em;
+  width: 50%;
+}
+
+legend {
+  letter-spacing: 0.5em;
+}
+
+code {
+  font-family: monospace;
+  font-size: 1.2em;
+}
+
+table {
+  margin-bottom: 2em;
+}
+
+textarea {
+  font-family: monospace;
+  font-size: 1.2em;
+  width: 400px;
+  height: 100px;
+}
+
+ol {
+  margin-left: 1em;
+}
+
+ul {
+  margin-bottom: 1em;
+}
+
+li {
+  margin-left: 1em;
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+h5 a:link {
+  color: black;
+}
+
+h5 a:visited {
+  color: black;
+}
+
+h5 a:hover {
+  color: #33CFFF;
+}
+
+.space {
+  margin-bottom: 1em;
+}
+
+div#header {
+  margin-bottom: 1em;
+}
+
+div#content {
+
+}
+
+div#footer {
+  margin-top: 1em;
+  text-align: center;
+  font-size: 120%;
+  color: #CCC;
+  clear: both;
+}
+
+div.sidebar {
+  width: 20%;
+  margin-right: 1em;
+  float: left;
+  overflow: hidden;
+}
+
+div.sidebar li {
+  list-style-type: none;
+  margin: 0;
+}
+
+div.content {
+  float: left;
+  width: 78%;
+}
+
+div.option {
+  clear: both;
+  margin-bottom: 0.5em;
+}
+
+div.option p {
+  width: 15em;
+  font-size: 90%;
+}
+
+label.block {
+  float: left;
+  width: 15em;
+  padding-right: 1em;
+}
+
+span.informational {
+  cursor: help;
+}
+
+img.preview {
+  margin: auto;
+}
+
+span.thumb {
+  height: 180px;
+  width: 180px;
+  display: inline-block;
+  float: left;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.hidden-comment {
+  background-color: #CCC;
+}
+
+.ignored-comment {
+  background-color: #FEE;
+}
+
+.good-comment {
+  background-color: #EFE;
+}
+
+.ignored-post {
+  background-color: #FEE;
+}
+
+
+span.comment-info {
+  font-size: 120%;
+}
+
+span.comment-info a {
+  color: #AAA;
+}
+
+span.comment-info a:hover {
+  color: #33CFFF;
+}
+
+a.comment-link:link, a.comment-link:visited {
+  color: black;
+  font-weight: bold;
+}
+
+a.resp-link {
+  font-weight: bold;
+}
+
+span.post-count {
+  color: #AAA;
+}
+
+ul.flat-list {
+  display: inline;
+}
+
+ul.flat-list * {
+  display: inline;
+}
+
+ul.flat-list li {
+  list-style-type: none;
+  font-weight: bold;
+  margin: 0 1em 0 0;
+}
+
+ul.flat-list li a {
+  font-weight: normal;
+}
+
+ul.flat-list li a.forum-update {
+  font-weight: bold;
+}
+
+ul.link-page {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+ul.link-page > li {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+li#notice {
+  color: red;
+  font-weight: bold;
+}
+
+form.button-to input {
+  border: none;
+  color: #006FFA;
+  background: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: normal;
+}
+
+form.button-to input:hover {
+  color: #33CFFF;
+}
+
+div#paginator {
+  display: block;
+  padding: 2em 0 1em 0;
+  font-size: 1em;
+  text-align: center;
+  font-weight: bold;
+  clear: both;
+}
+
+div#paginator span {
+  margin: 0 3px;
+  padding: 2px 6px;
+}
+
+div#paginator a {
+  margin: 0 3px;
+  padding: 2px 6px;
+  font-weight: normal;
+  border: 1px solid #EAEAEA;
+}
+
+div#paginator a.current {
+  border: 1px solid #AAA;
+}
+
+div#paginator a:hover {
+  background: rgb(60, 60, 220);
+  color: white;
+}
+
+div#paginator a.arrow {
+  border: none;
+}
+
+div#paginator a.arrow:hover {
+  background: white;
+  color: #33CFFF;
+}
+
+div#static-index {
+  text-align: center;
+}
+
+div#static-index div#links a {
+  margin: 0 0.5em;
+}
+
+div#static-more li {
+  list-style-type: none;
+  margin: 0;
+}
+
+div#static-more div {
+  float: left;
+  width: 25%;
+}
+
+div#static-more ul {
+  margin-top: 2em;
+}
+
+div#user-stats li {
+  list-style-type: none;
+  margin: 0;
+}
+
+div#user-stats div {
+  float: left;
+  width: 30%;
+}
+
+div#user-stats ul {
+  margin-top: 2em;
+}
+
+div.comment-quote {
+  padding: 0 1em;
+  margin: 0;
+  background: #fafafa;
+}
+div.quote {
+  margin-top: 10px;
+  padding: 12px;
+  text-align: justify;
+  font-style: italic;
+  background: #f6f6f6 url('/counter/quote.gif') no-repeat top right;
+  font-size: 12px;
+  font-family: sans-serif, arial, tahoma;
+  border: 1px solid #bababa;
+
+}
+
+
+div.comment-quote div.comment-quote {
+  background: #DDD;
+}
+
+div#comment-list2 li {
+  list-style-type: none;
+  margin: 0;
+}
+
+div#comment-list2 ul.post-info {
+  font-size: 1.2em;
+  color: #AAA;
+}
+
+div#comment-list2 h4 a {
+  color: #339;
+}
+
+div#comment-list2 h5.post-header {
+  margin-bottom: 1em;
+  font-weight: normal;
+  color: #AAA;
+}
+
+div#comment-list2 h5 a {
+  color: #666;
+}
+
+div#comment-list2 h5 a:hover {
+  color: #33CFFF;
+}
+
+div#comment-list2 div.col1 {
+  width: 200px;
+  float: left;
+  text-align: center;
+}
+
+div#comment-list2 div.col2 {
+  width: 500px;
+  padding-right: 1em;
+  float: left;
+}
+
+div#comment-list2 div.col3 {
+  width: 200px;
+  float: left;
+}
+
+div#comment-list2 div.comment {
+  margin-bottom: 1em;
+}
+
+div#comment-list2 h4.comment-header {
+  font-weight: normal;
+  color: #AAA;
+}
+
+div#comment-list2 img.preview {
+  display: block;
+  margin: auto;
+}
+
+div#comment-list2 div.post {
+  margin: 0 2em 0 0;
+  padding: 2em 1em;
+  float: left;
+  clear: both;
+  width: 100%;
+}
+
+div#post-list div.upload input {
+  margin-right: 1em;
+}
+
+div#post-view img.data {
+  margin-right: 5em;
+}
+
+div#post-view div#related0 img {
+  padding: 0;
+}
+
+div#post-view div#note-container {
+  position: absolute;
+}
+
+div#post-view div.note-box {
+  position: absolute;
+  border: 1px solid black;
+  width: 150px;
+  height: 150px;
+  cursor: move;
+  background: #FFE;
+  overflow: auto;
+  opacity:0.5;
+
+  /* for IE */ 
+  filter:alpha(opacity=50);
+  /* for Mozilla */
+  -moz-opacity:0.5;
+}
+
+div#post-view div.note-corner {
+  background: black;
+  width: 7px;
+  height: 7px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+}
+
+div#post-view div.note-body {
+  background: #FFE;
+  border: 1px solid black;
+  display: none;
+  width: 140px;
+  height: 100px;
+  position: absolute;
+  padding: 5px;
+  cursor: pointer;
+  overflow: auto;
+}
+
+tn {
+
+  font-size: 0.8em;
+  color: gray;
+}
+
+div#post-view div#edit-box textarea {
+  width: 90%;
+}
+
+div#post-view div#edit-box {
+  position: absolute;
+  z-index: 100;
+  background: #FFE;
+  border: 1px solid black;
+  padding: 1em;
+}
+
+div#post-view p {
+  margin: 0;
+}
+
+div#post-view span.radio {
+  margin-right: 1em;
+}
+
+div#post-view div.comment {
+  margin-bottom: 1em;
+}
+
+div#post-remove * {
+  display: inline;
+}
+
+div#post-remove img {
+  margin: 1em 0;
+  display: block;
+}
+
+div#tag-list {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+div#tag-list div.space a {
+  padding-right: 5px;
+}
+
+
+div#alpha-paginator {
+  text-align: center;
+}
+
+div#alpha-paginator a {
+  margin: 0.2em;
+}
+
+div#wiki-view {
+  line-height: 2em;
+  width: 50em;
+  text-align: left;
+}
+
+h2.wiki-title {
+  color: #003DD8;
+  margin-bottom: 0.25em;
+}
+
+span.old-version {
+  color: gray;
+}
+
+p.linked-from {
+  color: gray;
+  font-style: italic;
+}
+
+div.diff {
+  font-family: monospace;
+  font-size: 1.2em;
+  margin-top: 1em;
+}
+
+del {
+  font-family: monospace;
+  background-color: #f88;
+  text-decoration: line-through;
+}
+
+ins {
+  font-family: monospace;
+  background-color: #8f8;
+}
+
+div#admin-edit-user option {
+  width: 15em;
+}
+
+div#upload-list td {
+  padding: 0 1em;
+}
+
+div#user-index {
+  width: 40em;
+}
+
+div#user-list {
+  width: 40em;
+}
+
+div#user-list table {
+  width: 100%;
+}
+
+div#post-add {
+}
+
+div#post-add table div {
+  width: 36em;
+}
+
+div#post-add div#mytags a,
+div#post-add div#recent a,
+div#post-add div#related a {
+  margin-right: 15px;
+}
+
+div#post-add label {
+  padding: 0;
+  margin: 0;
+}
+
+div#post-popular {
+  text-align: center;
+}
+
+div#post-popular * {
+  margin: auto;
+}
+
+div#post-popular h1 {
+  margin-bottom: 1em;
+}
+
+div#post-tag-history li {
+  list-style-type: none;
+  margin: 0;
+}
+
+div#amb-content {
+  font-size: 1.2em;
+  font-style: italic;
+}
+
+ul.tag-explore {
+  margin: 0;
+}
+
+ul.tag-explore li {
+  list-style-type: none;
+  margin: 0 0 0 1em;
+}
+
+div#tag-explore img {
+  margin: 1em;
+}
+
+span.artist-tag {
+  color: #f00;
+}
+
+span.character-tag {
+  color: #0a0;
+}
+
+span.copyright-tag {
+  color: #a0a;
+}
+
+tr.footer > td {
+  padding-top: 1em;
+}
+
+div#artist td {
+  white-space: nowrap;
+}
+
+div#artist > div#search-form {
+  margin-bottom: 2em;
+}
+
+div#forum > table {
+  width: 100%;
+}
+
+div#forum > table td,
+div#forum > table th {
+  text-align: center;
+}
+
+div#forum > table td:first-child,
+div#forum > table th:first-child {
+  text-align: left;
+}
+
+div#forum > div.post {
+  margin-bottom: 2em;
+  float: left;
+  clear: left;
+}
+
+div#forum > div.post div.author {
+  float: left;
+  width: 15em;
+  padding-right: 1em;
+}
+
+div#forum > div.post div.author h6.author {
+  font-size: 1.3em;
+}
+
+div#forum > div.post div.post-content {
+  padding-left: 2em;
+  float: left;
+  min-height: 4em;
+}
+
+div#forum > div.post div.footer {
+  margin-top: 1em;
+  color: #CCC;
+}
+
+div#forum > div.post div.footer a {
+  color: #666;
+}
+
+div#forum > div.post div.body {
+  width: 40em;
+}
+div.response-list > div.post {
+  float: left;
+  clear: left;
+  margin-bottom: 2em;
+}
+
+div.response-list > div.post > div.author {
+  float: left;
+  width: 15em;
+  padding-right: 1em;
+}
+
+div.response-list > div.post > div.author > h6 {
+  font-size: 1.3em;
+}
+
+div.response-list > div.post > div.content {
+  float: left;
+  width: 30em;
+  padding: 0 0 0 10px;
+  margin: 0;
+}
+
+div.response-list > div.post > div.content > div.footer {
+  margin-top: 1em;
+  color: #CCC;
+}
+
+div.response-list > div.post > div.content > div.footer a {
+  color: #666;
+}
+
+div#invite > div#new {
+}
+
+div#invite > div#current {
+  margin-top: 2em;
+}
+
+span.blocked-post {
+  display: block;
+  float: left;
+  text-align: center;
+  width: 150px;
+  height: 150px;
+  margin: 15px;
+}
+
+p.tn {
+  font-size: smaller;
+  color: gray;
+}
+
+ul.news li {
+  margin-bottom: 0.5em;
+}
+
+div.help {
+  width: 40em;
+  margin-top: 2em;
+}
+
+div.help div.section {
+  margin-bottom: 4em;
+}
+
+div.help div.section div.section {
+  margin-bottom: 2em;
+}
+
+div.help h4 {
+  margin-bottom: 0.5em;
+  color: #060;
+}
+
+div.help h1, div.help h2, div.help h3, div.help h4 {
+  margin: 0 0 0.5em 0;
+}
+
+dt {
+  font-weight: bold;
+}
+
+dt.bad {
+  color: red;
+}
+
+dd {
+  margin-bottom: 1em;
+}
+
+div.help div.code {
+  border: 1px dashed green;
+  margin: 1em 0;
+  padding: 1em 2em;
+  background: #EEE;
+  overflow: hidden;
+  font-family: monospace;
+}
+
+a.code {
+  font-family: monospace;
+}
+
+
+.adHeadline {
+font: bold 12px Arial; 
+text-decoration: underline; 
+color: #0000FF;
+}
+
+.adText {
+font: normal 12px Arial; 
+text-decoration: none; 
+color: #000000;
+}
