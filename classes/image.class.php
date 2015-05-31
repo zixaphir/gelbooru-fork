@@ -27,7 +27,7 @@
 			try {
 				$imagick = new Imagick();
 				$imagick->readImage($image);
-				$imagick->thumbnailImage(150, 150, true);
+				$imagick->thumbnailImage($this->dimension, $this->dimension, true);
 				$imagick->writeImage("./".$this->thumbnail_path."/".$timage[0]."/".$thumbnail_name);
 				$imagick->clear();
 			}
