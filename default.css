@@ -7,7 +7,7 @@
 
 
 body {
-  font: 80% verdana, sans-serif;
+  font-family: 90% calibri, verdana, sans-serif;
   background: #fff;
   padding: 1em 2em;
 }
@@ -45,6 +45,11 @@ input {
   padding: 0 0.5em;
 }
 
+input#tags {
+  width: 172px;
+  box-sizing: border-box;
+  box-sizing: -moz-border-box;
+}
 a:link {
   color: #006FFA;
   text-decoration: none;
@@ -227,7 +232,7 @@ div#footer {
 }
 
 div.sidebar {
-  width: 20%;
+  width: 180px;
   margin-right: 1em;
   float: left;
   overflow: hidden;
