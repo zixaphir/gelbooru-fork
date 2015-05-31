@@ -133,7 +133,7 @@
   };
 
   mkForm = function(file) {
-    var child, div, el, fileURL, isVideo, j, k, left, len, len1, mTags, mkbrk, nForm, par, rating, ref, ref1, rem, right, row, source, submit, tags, tbody, tempEl, title, type;
+    var child, div, el, fileURL, isVideo, j, k, label, left, len, len1, mTags, mkbrk, nForm, par, rating, ref, ref1, rem, right, row, source, submit, tags, tbody, tempEl, title, type;
     if (file.size > SIZELIMIT) {
       div = mkElement('div', {
         textContent: file.name + " is too big! Size limit is 10MB."
@@ -213,13 +213,16 @@
     ref = ["Explicit", "Questionable", "Safe"];
     for (j = 0, len = ref.length; j < len; j++) {
       type = ref[j];
-      rating.appendChild(mkElement('input', {
+      label = mkElement('label');
+      label.appendChild(mkElement('input', {
         name: 'rating',
         type: 'radio',
         value: type[0].toLowerCase(),
+        id: 'r_' + type.toLowerCase(),
         checked: type === "Questionable" ? true : false
       }));
-      rating.appendChild(d.createTextNode(" " + type + " "));
+      label.appendChild(d.createTextNode(" " + type + " "));
+      rating.appendChild(label);
     }
     submit = mkElement('input', {
       type: 'submit',

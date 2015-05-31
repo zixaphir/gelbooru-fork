@@ -1,13 +1,11 @@
 * {
-  font-family: verdana,sans-serif;
+  font-family: calibri, verdana, sans-serif;
   margin: 0;
   padding: 0;
 }
 
-
-
 body {
-  font-family: 90% calibri, verdana, sans-serif;
+  font-family: calibri, verdana, sans-serif;
   background: #fff;
   padding: 1em 2em;
 }
@@ -100,6 +98,15 @@ a.help {
 label {
   font-weight: bold;
   padding-right: 2em;
+}
+
+.multi-upload label {
+  font-weight: normal;
+  padding-right: 0;
+}
+
+small {
+  font-size: 90%;
 }
 
 strong.divider {
