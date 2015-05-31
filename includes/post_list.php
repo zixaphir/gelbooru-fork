@@ -1,6 +1,6 @@
 <?php
 	//number of images/page
-	$limit = 20;
+	$limit = 32;
 	//number of pages to display. number - 1. ex: for 5 value should be 4
 	$page_limit = 10;
 	require "includes/header.php";
