@@ -189,7 +189,7 @@
 		<br /><br />
 		<script type="text/javascript">
 		//<![CDATA[
-		var posts = {}; posts['.$id.'] = {}; posts['.$id.'].comments = {}; posts['.$id.'].ignored = {}; var cthreshold = parseInt(readCookie(\'comment_threshold\')) || 0; var users = readCookie(\'user_blacklist\').split(/[, ]|%20+/g);
+		var posts = {}; posts['.$id.'] = {}; posts['.$id.'].comments = {}; posts['.$id.'].ignored = {}; var cthreshold = parseInt(readCookie(\'comment_threshold\')) || -1; var users = readCookie(\'user_blacklist\').split(/[, ]|%20+/g);
 		//]]>
 		</script>';
 

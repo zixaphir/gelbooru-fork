@@ -113,7 +113,7 @@
 		<div id="comment-list2">
 		<script type="text/javascript">
 		//<![CDATA[
-		var posts = {}; posts.comments = {}; posts.ignored = {}; posts.totalcount = {}; posts.tags = {}; posts.rating = {}; posts.score = {}; posts.rating[0] = ''; var phidden = {}; var cthreshold = parseInt(readCookie('comment_threshold')) || 0; var users = readCookie('user_blacklist').split(/[, ]|%20+/g);
+		var posts = {}; posts.comments = {}; posts.ignored = {}; posts.totalcount = {}; posts.tags = {}; posts.rating = {}; posts.score = {}; posts.rating[0] = ''; var phidden = {}; var cthreshold = parseInt(readCookie('comment_threshold')) || -1; var users = readCookie('user_blacklist').split(/[, ]|%20+/g);
 		//]]>
 		</script>
 		<?php
