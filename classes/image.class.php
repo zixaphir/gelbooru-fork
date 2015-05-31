@@ -127,7 +127,7 @@
 			$thumbnail_name = "thumbnail_".$image;
 			$image = "./".$this->image_path."/".$timage[0]."/".$image;
 
-			if (extension_loaded('imagick') && $ext != '.webm')
+			if (extension_loaded('imagick') && $ext != '.webm' && $ext != '.gif')
 				return $this->imagick_thumbnail($image, $timage, $ext, $thumbnail_name);
 			else
 				return $this->gd_thumbnail($image, $timage, $ext, $thumbnail_name);
