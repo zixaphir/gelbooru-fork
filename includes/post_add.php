@@ -186,6 +186,18 @@
 	require "includes/header.php";
 	print $error;
 ?>
+    <div style="padding: 15px; background: #fafafa; border: 1px solid #000;">
+    <b style="color: #ff0000;">Before you click upload, please take note:</b><br><br>
+    <ul>
+    <li>Do not upload content including real people, including staff of Zenimax or Bethesda. Cosplayers are exempt from this rule.</li>
+    <li>NEVER upload child models or child pornography to this site. If you do, the image will be removed as well as your access, and your identifying information will be pushed to the relevant authorities.</li>
+    <li>Do not upload bestiality to the site that contains real people and/or animals. It is illegal in the state this server is located.</li>
+    <li>Do not upload content that you do not have the rights or permission to post. It will be deleted and you may be banned.</li>
+    <li>Rate images appropriately. If you wouldn't look at it in front of your family, then it's probably not safe.</li>
+    <li>Stick to <b>TES</b>. Anything TES-related is allowed. Any in-game screenshot or work derived from in-game content is allowed. This extends to fanart of OC game-created characters.</li>
+    <li>If you chose to ignore these simple rules, you may forever be banned from all our services: past, present, and future.</li>
+    </ul>
+    </div>
 	<form method="post" target="" enctype="multipart/form-data">
 	<table><tr><td>
 	File:<br />
@@ -217,8 +229,11 @@
 	<tr><td>
 	<input type="submit" name="submit" value="Upload" />
 	</td></tr>
+    <tr><td>
+    <br>
 	</table>
 	</form>
+    <script language="javascript" type="text/javascript" src="/script/multiupload.js"></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	function toggleTags(tag, id, lid)
