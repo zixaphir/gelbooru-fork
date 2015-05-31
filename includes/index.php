@@ -31,7 +31,7 @@
 	$query = "SELECT t1.pcount, t2.count FROM $post_count_table AS t1 JOIN $hit_counter_table as t2 WHERE t1.access_key='posts'";
 	$result = $db->query($query);
 	$row = $result->fetch_assoc();
-	echo 'Serving '.number_format($row['pcount']).' posts  -  Running <a href="http://gelbooru.com/">Gelbooru</a> Beta 0.1.11
+	echo 'Serving '.number_format($row['pcount']).' posts  -  Running <a href="https://github.com/zixaphir/gelbooru-fork/">Gelbooru-fork</a> Beta 0.1.11
 	</p><br />';
 	for ($i=0;$i<strlen($row['pcount']);$i++) 
 	{
