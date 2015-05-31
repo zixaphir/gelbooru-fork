@@ -29,6 +29,7 @@
 				$imagick->readImage($image);
 				$imagick->thumbnailImage(150, 150, true);
 				$imagick->writeImage("./".$this->thumbnail_path."/".$timage[0]."/".$thumbnail_name);
+				$imagick->clear();
 			}
 			catch(Exception $e) {
 				echo "Unable to load image." . $e->getMessage();
@@ -83,7 +84,7 @@
 				return false;
 			}
 
-			$max	= ($imginfo[0] > $imginfo[1]) ? $imginfo[0] : $imginfo[1];
+			$max    = ($imginfo[0] > $imginfo[1]) ? $imginfo[0] : $imginfo[1];
 			$scale  = ($max < $this->dimension) ? 1 : $this->dimension / $max;
 			$width  = $imginfo[0] * $scale;
 			$height = $imginfo[1] * $scale;
