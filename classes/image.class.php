@@ -15,16 +15,30 @@
 			$this->dimension = $dimension;
 		}
 
-		function thumbnail($image)
-		{
-			$timage = explode("/",$image);
-			$image = $timage[1];
-			$ext = explode(".",$image);
-			$count = count($ext);
-			$ext = $ext[$count-1];
-			$ext = ".".$ext;
-			$thumbnail_name = "thumbnail_".$image;
-			$image = "./".$this->image_path."/".$timage[0]."/".$image;
+        function imagick_thumbnail($image, $timage, $ext, $thumbnail_name)
+        {
+			if ($imginfo) {
+				$tmp_ext = ".".str_replace("image/","",$imginfo['mime']);
+				if($tmp_ext != $ext)
+				{
+					$ext = $tmp_ext;
+				}
+			}
+            try {
+                $imagick = new Imagick();
+                $imagick->readImage($image);
+                $imagick->thumbnailImage(150, 150, true);
+                $imagick->writeImage("./".$this->thumbnail_path."/".$timage[0]."/".$thumbnail_name);
+            }
+            catch(Exception $e) {
+				echo "Unable to load image." . $e->getMessage();
+				return false;
+            }
+            return true;
+        }
+
+        function gd_thumbnail($image, $timage, $ext, $thumbnail_name)
+        {
 			$imginfo = getimagesize($image);
 
 			if ($imginfo) {
@@ -99,6 +113,23 @@
 			imagedestroy($thumbnail);
 
 			return true;
+        }
+
+		function thumbnail($image)
+		{
+			$timage = explode("/",$image);
+			$image = $timage[1];
+			$ext = explode(".",$image);
+			$count = count($ext);
+			$ext = $ext[$count-1];
+			$ext = ".".$ext;
+			$thumbnail_name = "thumbnail_".$image;
+			$image = "./".$this->image_path."/".$timage[0]."/".$image;
+
+            if (extension_loaded('imagick') && $ext != '.webm')
+                return $this->imagick_thumbnail($image, $timage, $ext, $thumbnail_name);
+            else
+                return $this->gd_thumbnail($image, $timage, $ext, $thumbnail_name);
 		}
 
 		function getremoteimage($url)
@@ -263,7 +294,8 @@
 				unlink("./tmp/".$fname.$ext);
 				return false;
 			}
-			if ($ext === ".webm") {
+			if ($ext === ".webm") 
+            {
 				$vid = new webm("./tmp/".$fname.$ext);
 				if ($vid->valid_webm()) {
 					$img = $vid->frame();
@@ -276,7 +308,9 @@
 					echo "Invalid video file.";
 					return false;
 				}
-			} else {
+			}
+            else
+            {
 				$iinfo = getimagesize("./tmp/".$fname.$ext);
 			}
 			if( (substr($iinfo['mime'],0,5) != "image" && substr($iinfo['mime'],0,5) != "video") || $iinfo[0] < $min_upload_width && $min_upload_width != 0 || $iinfo[0] > $max_upload_width && $max_upload_width != 0 || $iinfo[1] < $min_upload_height && $min_upload_height != 0 || $iinfo[1] > $max_upload_height && $max_upload_height != 0 || !$this->checksum("./tmp/".$fname.$ext))

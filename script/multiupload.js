@@ -344,7 +344,7 @@
       progressCell.textContent = "Upload Complete: " + body.firstChild.textContent;
     } catch (_error) {
       error = _error;
-      uploadFail(error, el, newFiles, row);
+      uploadFail(error, body);
     }
     current++;
     if (uploadingAll) {
