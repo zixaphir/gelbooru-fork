@@ -164,10 +164,10 @@
 				if(strlen($search)-$count > 0)
 				{
 					$res = str_replace("*","",$search);
-					$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE tags LIKE '% $res %' ORDER BY id DESC";
+					$query = "SELECT * FROM $post_table WHERE tags LIKE '% $res %' ORDER BY id DESC";
 				}
 				else
-					$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table ORDER BY id DESC";
+					$query = "SELECT * FROM $post_table ORDER BY id DESC";
 			}
 			echo '<!-- '.$query.'-->';
 			return $query;

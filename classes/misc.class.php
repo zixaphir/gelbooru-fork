@@ -14,7 +14,7 @@
 				$offset = $pos+1;
 				$links[] = $pos;
 				$i++;
-				
+
 			}
 			foreach($links as $pos)
 			{
@@ -74,7 +74,7 @@
 			global $site_email, $site_url3;
 			$headers = "";
 			$eol = "\r\n";
-			$headers .= "From: no-reply at ".$site_url3." <$site_email>".$eol; 
+			$headers .= "From: no-reply at ".$site_url3." <$site_email>".$eol;
 			$headers .= "X-Mailer:  Microsoft Office Outlook 12.0".$eol;
 			$headers .= "MIME-Version: 1.0".$eol;
 			$headers .= 'Content-Type: text/html; charset="UTF-8"'.$eol;
@@ -111,9 +111,9 @@
 				$new_tag_cache = str_replace(">","&gt;",$new_tag_cache);
 			if(strpos($new_tag_cache,"?") !== false)
 				$new_tag_cache = str_replace("?","&#063;",$new_tag_cache);
-			return $new_tag_cache;	
+			return $new_tag_cache;
 		}
-		
+
 		function ReadHeader($socket)
 		{
 			$i=0;
@@ -146,7 +146,7 @@
 			else
 				return 0;
 		}
-		
+
 		function swap_bbs_tags($data)
 		{
 			$pattern = array();
@@ -169,29 +169,29 @@
 			}
 			return $data;
 		}
-		
+
 		function date_words($date_now)
 		{
 			$hour_now = date('g:i:s A',$date_now);
 			if($date_now+60*60*24 >= time())
-				$date_now = "Today"; 
-			else if($date_now+60*60*48 >= time()) 
-				$date_now = "Yesterday"; 
+				$date_now = "Today";
+			else if($date_now+60*60*48 >= time())
+				$date_now = "Yesterday";
 			else if(((int)((time()-$date_now)/(24*60*60)))<=7)
 			{
-				$a = time()-$date_now; 
+				$a = time()-$date_now;
 				$a = (int)($a/(24*60*60));
-				$date_now = $a." days ago"; 
+				$date_now = $a." days ago";
 			}
 			else if(((int)((time()-$date_now)/(24*60*60)))<=31)
 			{
-				$a = time()-$date_now; 
+				$a = time()-$date_now;
 				$a = (int)($a/(24*60*60*7));
 				$date_now = $a." weeks ago";
 			}
 			else if(((int)((time()-$date_now)/(24*60*60)))<=365)
 			{
-				$a = time()-$date_now; 
+				$a = time()-$date_now;
 				$a = (int)($a/(24*60*60*31));
 				$date_now = $a." months ago";
 			}
@@ -204,7 +204,7 @@
 			$date_now = '<span title="'.$hour_now.'">'.$date_now.'</span>';
 			return $date_now;
 		}
-		
+
 		public function is_html($data)
 		{
 			if(preg_match("#<script|<html|<head|<title|<body|<pre|<table|<a\s+href|<img|<plaintext|<div|<frame|<iframe|<li|type=#si", $data) == 1)
@@ -212,7 +212,7 @@
 			else
 				return false;
 		}
-		
+
 		function pagination($page_type,$sub = false,$id = false,$limit = false,$page_limit = false,$count = false,$page = false,$tags = false, $query = false)
 		{
 			$lowerlimit = 0;
@@ -232,7 +232,7 @@
 			$total = $pages;
 			if ($pages < 1 || $pages == 0 || $pages == "")
 				$total = 1;
-				
+
 			$first = $page + 1;
 			$last = $count;
 			if (!((($page + $limit) / $limit) >= $pages) && $pages != 1)
@@ -250,8 +250,8 @@
 			if($start > $lowerlimit)
 				$start = $lowerlimit;
 			$lastpage = $limit*($pages - 1);
-			if($page != 0 && !((($page+$limit) / $limit) > $pages)) 
-			{ 
+			if($page != 0 && !((($page+$limit) / $limit) > $pages))
+			{
 				$back_page = $page - $limit;
 				$output .=  '<a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid=0" alt="first page">&lt;&lt;</a><a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid='.$back_page.'" alt="back">&lt;</a>';
 			}
@@ -266,13 +266,39 @@
 						$output .=  '<a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid='.$ppage.'">'.$i.'</a>';
 				}
 			}
-			if (!((($page+$limit) / $limit) >= $pages) && $pages != 1) 
-			{ 
+			if (!((($page+$limit) / $limit) >= $pages) && $pages != 1)
+			{
 				// If last page don't give next link.
 				$next_page = $page + $limit;
 				$output .= '<a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid='.$next_page.'" alt="next">&gt;</a><a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid='.$lastpage.'" alt="last page">&gt;&gt;</a>';
 			}
 			return $output;
+		}
+
+		function createPostObject($row) {
+			return array('post' => array (
+				'width'          => $row['width'],
+				'height'         => $row['height'],
+				'sample_width'   => $row['width'],
+				'sample_height'  => $row['height'],
+				'preview_width'  => '150px',
+				'preview_height' => '150px',
+				'score'          => $row['score'],
+				'file_url'       => $site_url.'/'.$image_folder.'/'.$row['directory'].'/'.$row['image'],
+				// 'parent_id'      => 'UNIMPLEMENTED',
+				'preview_url'    => $thumbnail_url.'/'.$row['directory'].'/thumbnail_'.$row['image'],
+				'rating'         => $row['rating'],
+				'tags'           => mb_trim($row['tags']),
+				'id'             => $row['id'],
+				// 'change'         => 'UNIMPLEMENTED',
+				'md5'            => $row['hash'],
+				'creator_id'     => $row['owner'],
+				'created_at'     => $row['creation_date'],
+				// 'status'         => 'UNIMPLEMENTED',
+				'source'         => $row['source'],
+				// 'has_notes'      => 'UNIMPLEMENTED',
+				'has_comments'   => $row['last_comment'] != 'NULL'
+			));
 		}
 	}
 ?>

@@ -15,6 +15,8 @@
 			require "includes/login.php";
 		else if($_GET['page'] == "post")
 			require "includes/posts.php";
+        else if($_GET['page'] == "dapi")
+            require "includes/dapi.php";
 		else if($_GET['page'] == "history")
 			require "includes/history.php";
 		else if($_GET['page'] == "account-options")
@@ -30,10 +32,10 @@
 		else if($_GET['page'] == "alias")
 			require "includes/alias.php";
 		else if($_GET['page'] == "reset_password")
-			require "includes/reset_password.php";	
+			require "includes/reset_password.php";
 		else if($_GET['page'] == "forum")
-			require "includes/forum.php";	
-		else 
+			require "includes/forum.php";
+		else
 		{
 			header("Location:".$site_url."/");
 			exit;
