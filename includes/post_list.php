@@ -129,6 +129,10 @@ var posts = {}; var pignored = {};
 
 			$gtags = array();
 			$images = '';
+            $script = '
+                <script type="text/javascript">
+				//<![CDATA[
+                ';
 			$tcount = 0;
 			$result = $db->query($query) or die($db->error);
 			//Limit main tag listing to 40 tags. Keep the loop down to the minimum really.
@@ -147,12 +151,10 @@ var posts = {}; var pignored = {};
 						}
 					}
 				}
-				$images .= '<span class="thumb"><a id="p'.$row['id'].'" href="index.php?page=post&amp;s=view&amp;id='.$row['id'].'"><img src="'.$thumbnail_url.'/'.$row['directory'].'/thumbnail_'.$row['image'].'" alt="post" border="0" title="'.$row['tags'].' score:'.$row['score'].' rating:'. $row['rating'].'"/></a>
-				<script type="text/javascript">
-				//<![CDATA[
-				posts['.$row['id'].'] = {\'tags\':\''.strtolower(str_replace('\\',"&#92;",str_replace("'","&#039;",$tags))).'\'.split(/ /g), \'rating\':\''.$row['rating'].'\', \'score\':'.$row['score'].', \'user\':\''.str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['owner']))).'\'}
-				//]]>
-				</script></span>';
+				$images .= '<span class="thumb"><a id="p'.$row['id'].'" href="index.php?page=post&amp;s=view&amp;id='.$row['id'].'"><img src="'.$thumbnail_url.'/'.$row['directory'].'/thumbnail_'.$row['image'].'" alt="post" border="0" title="'.$row['tags'].' score:'.$row['score'].' rating:'. $row['rating'].'"/></a></span>';
+                $script .= 'posts['.$row['id'].'] = {\'tags\':\''.strtolower(str_replace('\\',"&#92;",str_replace("'","&#039;",$tags))).'\'.split(/ /g), \'rating\':\''.$row['rating'].'\', \'score\':'.$row['score'].', \'user\':\''.str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['owner']))).'\'};
+                ';
+
 				++$tcount;
 			}
 			$result->free_result();
@@ -178,12 +180,11 @@ var posts = {}; var pignored = {};
 			//Print out image results and filter javascript
 			echo '<li><br /><br /></li></ul></div></div><div class="content"><div>';
 			$images .= "</div><br /><br /><div style='margin-top: 550px; text-align: right;'><a id=\"pi\" href=\"#\" onclick=\"showHideIgnored('0','pi'); return false;\"></a></div><div id='paginator'>";
-			$images .= '<script type="text/javascript">
-			//<![CDATA[
-			filterPosts(posts)
-			//]]>
+			$script .= 'filterPosts(posts);
+            //]]>
 			</script>';
 			echo $images;
+            echo $script;
 
 			//Pagination function. This should work for the whole site... Maybe.
 			$misc = new misc();

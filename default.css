@@ -253,6 +253,7 @@ div.sidebar li {
 div.content {
   float: left;
   width: 78%;
+  min-width: calc(100% - 200px);
 }
 
 div.option {
@@ -303,7 +304,6 @@ span.thumb {
 .ignored-post {
   background-color: #FEE;
 }
-
 
 span.comment-info {
   font-size: 120%;
