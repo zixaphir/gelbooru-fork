@@ -15,7 +15,6 @@
 		$page = $pid = 0;
 	$no_cache = null;
 	$tag_count = null;
-	$misc = new misc();
 	//No tags  have been searched for so let's check the last_update value to update our main page post count for parent posts. Updated once a day.
 	if(!isset($_GET['tags']) || isset($_GET['tags']) && $_GET['tags'] == "all" || isset($_GET['tags']) && $_GET['tags'] == "")
 	{
@@ -41,6 +40,7 @@
 		$tags = explode(" ",$tags);
 		$tag_count = count($tags);
 		$new_tag_cache = urldecode($tags[0]);
+		$misc = new misc();
 		if(strpos(strtolower($new_tag_cache),"parent:") === false && strpos(strtolower($new_tag_cache),"user:") === false && strpos(strtolower($new_tag_cache),"rating:") === false && strpos($new_tag_cache,"*") === false)
 			$new_tag_cache = $misc->windows_filename_fix($new_tag_cache);
 		if($tag_count > 1 || !is_dir("$main_cache_dir".""."japi_cache/".$new_tag_cache."/") || !file_exists("$main_cache_dir".""."japi_cache/".$new_tag_cache."/".$page.".json") || strpos(strtolower($new_tag_cache),"all") !== false || strpos(strtolower($new_tag_cache),"user:") !== false || strpos(strtolower($new_tag_cache),"rating:") !== false || substr($new_tag_cache,0,1) == "-" || strpos(strtolower($new_tag_cache),"*") !== false || strpos(strtolower($new_tag_cache),"parent:") !== false)
@@ -101,7 +101,7 @@
 			$i = 0;
 			while($row = $result->fetch_assoc())
 			{
-				$posts[$i++] = $misc->createPostObject($row);
+				$posts[$i++] = createPostObject($row);
 			}
 			$postsArr = array('offset' => $page, 'count' => $numrows, 'posts' => $posts);
 			$result->free_result();

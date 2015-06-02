@@ -4,7 +4,7 @@
 	$mysql_pass = "gelbooru";
 	$mysql_db = "gelbooru1";
 
-	//site base url, trailing slash.
+	//site base url, no trailing slash.
 	$site_url = "http://gelbooru.com/";
 	//URL to the thumbnails directory
 	$thumbnail_url = "http://gelbooru.com/thumbnails/";
