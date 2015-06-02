@@ -1,6 +1,9 @@
 <?php
 	if(isset($_GET['limit']) && $_GET['limit'] != "" && is_numeric($_GET['limit']) && $_GET['limit'] >= 0)
 		$limit = $db->real_escape_string($_GET['limit']);
+		if ($limit > 100) {
+			$limit = 100;
+		}
 	else
 		$limit = 32;
 	if(isset($_GET['pid']) && $_GET['pid'] != "" && is_numeric($_GET['pid']) && $_GET['pid'] >= 0)
