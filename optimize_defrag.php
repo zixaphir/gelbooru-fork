@@ -1,5 +1,11 @@
 <?php
 	require "inv.header.php";
+	$user = new user();
+	if(!$user->gotpermission('is_admin'))
+	{
+		header('Location: index.php');
+		exit;
+	}
 	//turn verbose on/off (on shows output of processed tables)
 	$verbose = true;
 	$query = "SHOW TABLE STATUS";
