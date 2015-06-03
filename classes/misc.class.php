@@ -274,31 +274,5 @@
 			}
 			return $output;
 		}
-
-		function createPostObject($row) {
-			return array('post' => array (
-				'width'          => $row['width'],
-				'height'         => $row['height'],
-				'sample_width'   => $row['width'],
-				'sample_height'  => $row['height'],
-				'preview_width'  => '150px',
-				'preview_height' => '150px',
-				'score'          => $row['score'],
-				'file_url'       => $site_url.'/'.$image_folder.'/'.$row['directory'].'/'.$row['image'],
-				// 'parent_id'      => 'UNIMPLEMENTED',
-				'preview_url'    => $thumbnail_url.'/'.$row['directory'].'/thumbnail_'.$row['image'],
-				'rating'         => $row['rating'],
-				'tags'           => mb_trim($row['tags']),
-				'id'             => $row['id'],
-				// 'change'         => 'UNIMPLEMENTED',
-				'md5'            => $row['hash'],
-				'creator_id'     => $row['owner'],
-				'created_at'     => $row['creation_date'],
-				// 'status'         => 'UNIMPLEMENTED',
-				'source'         => $row['source'],
-				// 'has_notes'      => 'UNIMPLEMENTED',
-				'has_comments'   => $row['last_comment'] != 'NULL'
-			));
-		}
 	}
 ?>

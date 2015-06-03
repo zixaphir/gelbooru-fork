@@ -1,11 +1,21 @@
 <?php
 	if(isset($_GET['limit']) && $_GET['limit'] != "" && is_numeric($_GET['limit']) && $_GET['limit'] >= 0)
+	{
 		$limit = $db->real_escape_string($_GET['limit']);
 		if ($limit > 100) {
 			$limit = 100;
 		}
+	}
 	else
 		$limit = 32;
+	if(isset($_GET['t']) && $_GET['t'] == 'json')
+	{
+		$api_type = 'json';
+	}
+	else
+	{
+		$api_type = 'xml';
+	}
 	if(isset($_GET['pid']) && $_GET['pid'] != "" && is_numeric($_GET['pid']) && $_GET['pid'] >= 0)
 	{
 		$pid  = $db->real_escape_string($_GET['pid']);
@@ -43,10 +53,10 @@
 		$misc = new misc();
 		if(strpos(strtolower($new_tag_cache),"parent:") === false && strpos(strtolower($new_tag_cache),"user:") === false && strpos(strtolower($new_tag_cache),"rating:") === false && strpos($new_tag_cache,"*") === false)
 			$new_tag_cache = $misc->windows_filename_fix($new_tag_cache);
-		if($tag_count > 1 || !is_dir("$main_cache_dir".""."japi_cache/".$new_tag_cache."/") || !file_exists("$main_cache_dir".""."japi_cache/".$new_tag_cache."/".$page.".json") || strpos(strtolower($new_tag_cache),"all") !== false || strpos(strtolower($new_tag_cache),"user:") !== false || strpos(strtolower($new_tag_cache),"rating:") !== false || substr($new_tag_cache,0,1) == "-" || strpos(strtolower($new_tag_cache),"*") !== false || strpos(strtolower($new_tag_cache),"parent:") !== false)
+		if($tag_count > 1 || !is_dir("$main_cache_dir".""."api_cache/".$new_tag_cache."/") || !file_exists("$main_cache_dir".""."api_cache/".$new_tag_cache."/".$page.".json") || strpos(strtolower($new_tag_cache),"all") !== false || strpos(strtolower($new_tag_cache),"user:") !== false || strpos(strtolower($new_tag_cache),"rating:") !== false || substr($new_tag_cache,0,1) == "-" || strpos(strtolower($new_tag_cache),"*") !== false || strpos(strtolower($new_tag_cache),"parent:") !== false)
 		{
-			if(!is_dir("$main_cache_dir".""."japi_cache/"))
-				@mkdir("$main_cache_dir".""."japi_cache");
+			if(!is_dir("$main_cache_dir".""."api_cache/"))
+				@mkdir("$main_cache_dir".""."api_cache");
 			$search = new search();
 			$query = $search->prepare_tags(implode(" ",$tags));
 			$result = $db->query($query) or die($db->error);
@@ -56,21 +66,21 @@
 				$no_cache = false;
 			else
 			{
-				if(!is_dir("$main_cache_dir".""."japi_cache/".$new_tag_cache."/"))
-					@mkdir("$main_cache_dir".""."japi_cache/".$new_tag_cache."/");
+				if(!is_dir("$main_cache_dir".""."api_cache/".$new_tag_cache."/"))
+					@mkdir("$main_cache_dir".""."api_cache/".$new_tag_cache."/");
 				$no_cache = true;
 			}
 		}
 		else
 		{
-			if(!is_dir("$main_cache_dir".""."japi_cache/"))
-				mkdir("$main_cache_dir".""."japi_cache");
+			if(!is_dir("$main_cache_dir".""."api_cache/"))
+				mkdir("$main_cache_dir".""."api_cache");
 			$tags = $new_tag_cache;
 			$cache = new cache();
 			$no_cache = true;
-			if(is_dir("$main_cache_dir".""."japi_cache/".$tags."/") && file_exists("$main_cache_dir".""."japi_cache/".$tags."/".$page.".json"))
+			if(is_dir("$main_cache_dir".""."api_cache/".$tags."/") && file_exists("$main_cache_dir".""."api_cache/".$tags."/".$page.".".$api_type))
 			{
-				$data = $cache->load("japi_cache/".$tags."/".$page.".json");
+				$data = $cache->load("api_cache/".$tags."/".$page.".".$api_type);
 				echo $data;
 				$numrows = 1;
 				$no_cache = false;
@@ -79,7 +89,13 @@
 	}
 	//No images found
 	if($numrows == 0)
-		print '{"offset":"'.$page.'","count":"0",posts":[]}';
+		if ($api_type == 'json') {
+			print '{"offset":"'.$page.'","count":"0",posts":[]}';
+		}
+		else
+		{
+			print '<?xml version="1.0" encoding="UTF-8"?><posts offset="'.$page.'" count="0"></posts>';
+		}
 	else
 	{
 		if(!isset($_GET['tags']) || isset($_GET['tags']) && $_GET['tags'] == "all" || isset($_GET['tags']) && $_GET['tags'] == "")
@@ -96,17 +112,32 @@
 
 			$result = $db->query($query) or die($db->error);
 
-			$posts = array();
-
-			$i = 0;
-			while($row = $result->fetch_assoc())
+			if ($api_type == 'json')
 			{
-				$posts[$i++] = createPostObject($row);
-			}
-			$postsArr = array('offset' => $page, 'count' => $numrows, 'posts' => $posts);
-			$result->free_result();
+				header('Content-type: application/json');
+				$posts = array();
 
-			echo json_encode($postsArr);
+				$i = 0;
+				while($row = $result->fetch_assoc())
+				{
+					$posts[$i++] = createPostObject($row);
+				}
+				$postsArr = array('offset' => $page, 'count' => $numrows, 'posts' => $posts);
+				$result->free_result();
+
+				echo json_encode($postsArr);
+			}
+			else
+			{
+				header('Content-type: text/xml');
+				$posts = '<?xml version="1.0" encoding="UTF-8"?><posts offset="'.$page.'" count="'.$numrows.'">'."\r\n";
+				while($row = $result->fetch_assoc())
+				{
+					$posts .= createPostXML($row);
+				}
+				$posts .= '</posts>';
+				echo $posts;
+			}
 		}
 		//Cache doesn't exist for search, make one.
 		if($no_cache === true)
@@ -115,9 +146,9 @@
 			ob_end_flush();
 			if($new_tag_cache != "")
 			{
-				if(!is_dir("$main_cache_dir".""."japi_cache/".$new_tag_cache))
-					@mkdir("$main_cache_dir".""."japi_cache/".$new_tag_cache);
-				$cache->save("japi_cache/".$new_tag_cache."/".$page.".json",$data);
+				if(!is_dir("$main_cache_dir".""."api_cache/".$new_tag_cache))
+					@mkdir("$main_cache_dir".""."api_cache/".$new_tag_cache);
+				$cache->save("api_cache/".$new_tag_cache."/".$page.".".$api_type,$data);
 			}
 		}
 	}
