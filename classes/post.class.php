@@ -12,7 +12,7 @@
 			$row = $result->fetch_assoc();
 			return $row;
 		}
-		
+
 		function get_notes($id)
 		{
 			global $db, $note_table;
@@ -21,7 +21,16 @@
 			$result = $db->query($query);
 			return $result;
 		}
-		
+
+		function has_notes($id)
+		{
+			$result = $this->get_notes($id);
+			if($result->num_rows == "0")
+				return false;
+			else
+				return true;
+		}
+
 		function prev_next($id)
 		{
 			global $db, $post_table;
@@ -35,7 +44,7 @@
 			$prev_next[] = $row['id'];
 			return $prev_next;
 		}
-		
+
 		function has_children($id)
 		{
 			global $db, $parent_child_table;
@@ -46,7 +55,7 @@
 			else
 				return true;
 		}
-		
+
 		function index_count($current)
 		{
 			global $db, $tag_index_table;

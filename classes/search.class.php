@@ -169,7 +169,6 @@
 				else
 					$query = "SELECT * FROM $post_table ORDER BY id DESC";
 			}
-			echo '<!-- '.$query.'-->';
 			return $query;
 		}
 
