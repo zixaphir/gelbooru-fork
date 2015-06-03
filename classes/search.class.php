@@ -77,12 +77,8 @@
 								case '=':
 									$score = substr($score, 1);
 									break;
-								case 's':
-									$op = '=';
-									break;
 								default:
-									$score = 0;
-									$op = '>';
+									$op = '=';
 							}
 							$score = (int) $score;
 							$g_score = " AND score $op $score";
