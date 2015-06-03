@@ -1,9 +1,4 @@
 <?php
-	//number of comments/page
-	$limit = 10;
-	//number of pages to display. number - 1. ex: for 5 value should be 4
-	$page_limit = 6;
-	//Load required class files. post.class and cache.class
 	$post = new post();
 	$cache = new cache();
 	header("Cache-Control: store, cache");

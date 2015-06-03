@@ -52,7 +52,7 @@
     z = 0;
     return Object.defineProperty(g, "currentImageIndex", {
       set: function(x) {
-        return z = Math.min(+g.images.length, Math.max(x, 0));
+        return z = Math.min((+g.images.length) - 1, Math.max(x, 0));
       },
       get: function() {
         return z;

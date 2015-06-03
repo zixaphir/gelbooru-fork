@@ -51,7 +51,7 @@ g =
 do -> # wrap in an anonymous function to closure z.
   z = 0
   Object.defineProperty g, "currentImageIndex",
-    set: (x) -> z = Math.min +g.images.length, Math.max x, 0
+    set: (x) -> z = Math.min ((+g.images.length) - 1), Math.max x, 0
     get:     -> z
 
 $ = (query, root) ->
