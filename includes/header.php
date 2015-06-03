@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="'.$site_url.'/default.css?2" title="default" />
 		<link rel="search" type="application/opensearchdescription+xml" title="'.$site_url3.'" href="'.$site_url.'/default.xml" />
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 		<meta name="description" content="A very large imageboard for Japanese related content that is anonymous." />
 		<script src="'.$site_url.'/script/prototype.js?2" type="text/javascript"></script>
 		<script src="'.$site_url.'/script/global.js?2" type="text/javascript"></script>
