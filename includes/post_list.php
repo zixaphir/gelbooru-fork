@@ -210,5 +210,5 @@ var posts = {}; var pignored = {};
 		}
 	}
 ?>
-</div><div id="footer"><a href="index.php?page=post&amp;s=add">Add</a> | <a href="help/">Help</a></div><br /><br />
-</div></div></div></body></html>
+</div><div id="footer"><a href="javascript:;" id="gal-toggle">Open Gallery</a><br /><br /><a href="index.php?page=post&amp;s=add">Add</a> | <a href="help/">Help</a></div><br /><br />
+</div></div></div><script type="text/javascript" src="script/gallery.js"></script></body></html>

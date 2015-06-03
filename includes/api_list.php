@@ -50,7 +50,9 @@
 		$tags = explode(" ",$tags);
 		$tag_count = count($tags);
 		$new_tag_cache = urldecode($tags[0]);
+        ob_start(); // XXX Weird bug where "new misc();" causes 4 tabs to be output?
 		$misc = new misc();
+        ob_end_clean();
 		if(strpos(strtolower($new_tag_cache),"parent:") === false && strpos(strtolower($new_tag_cache),"user:") === false && strpos(strtolower($new_tag_cache),"rating:") === false && strpos($new_tag_cache,"*") === false)
 			$new_tag_cache = $misc->windows_filename_fix($new_tag_cache);
 		if($tag_count > 1 || !is_dir("$main_cache_dir".""."api_cache/".$new_tag_cache."/") || !file_exists("$main_cache_dir".""."api_cache/".$new_tag_cache."/".$page.".json") || strpos(strtolower($new_tag_cache),"all") !== false || strpos(strtolower($new_tag_cache),"user:") !== false || strpos(strtolower($new_tag_cache),"rating:") !== false || substr($new_tag_cache,0,1) == "-" || strpos(strtolower($new_tag_cache),"*") !== false || strpos(strtolower($new_tag_cache),"parent:") !== false)
