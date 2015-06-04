@@ -41,7 +41,7 @@
 		$rating = $post_data['rating'];
 		$lozerisdumb = "- ".str_replace('_',' ',str_replace('&quot;','\\"',$tags));
 		require "includes/header.php";	
-		echo '<div id="content"><div id="post-view">';
+		echo '<section><div id="post-view">';
 		if($post->has_children($id))
 			echo '<div style="background: #f0f0f0; padding: 10px; text-align: center; border: 3px solid #dadada;">This post has <a href="index.php?page=post&s=list&tags=parent:'.$id.'"><b>child posts</b></a>. Child posts are often subsequent pages of a doujinshi, or minor variations of the parent post.</div><br><br>';
 
@@ -66,7 +66,7 @@
 			echo '<a id="rp'.$id.'"></a><a href="#" id="rpl'.$id.'" onclick="Element.toggle(\'report_form\')">Report post.</a><br /><form id="report_form" method="post" action="./public/report.php?type=post&amp;rid='.$id.'" style="display: none;">Reason for report:<br /><input type="text" name="reason" value=""/><input type="submit" name="submit" value="" style="display: none;"/></form>';
 		else
 			print '<b>Post reported</b><br />';
-		echo '<div class="content" id="right-col"><div><div id="note-container">';
+		echo '<article id="right-col"><div><div id="note-container">';
 
 		$note_data = $post->get_notes($id);
 		while($retme = $note_data->fetch_assoc())
@@ -294,4 +294,4 @@
 	}
 	ob_flush();
 	flush();
-?><br / ><br /><br / ><br /></div></div></div></div></div></body></html>
+?><br / ><br /><br / ><br /></div></div></article></div></section></body></html>

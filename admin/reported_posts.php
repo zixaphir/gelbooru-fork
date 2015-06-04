@@ -18,7 +18,7 @@
 	$limit = 20;
 	//number of pages to display. number - 1. ex: for 5 value should be 4
 	$page_limit = 4;
-	print '<div class="content"><table class="highlightable" style="width: 100%; font-size: 12px;"><tr><th>Post ID:</th><th>Reason:</th><th>Score:</th><th>Date Posted:</th><th>Unflag:</th></tr>';
+	print '<article><table class="highlightable" style="width: 100%; font-size: 12px;"><tr><th>Post ID:</th><th>Reason:</th><th>Score:</th><th>Date Posted:</th><th>Unflag:</th></tr>';
 	if(isset($_GET['pid']) && $_GET['pid'] != "" && is_numeric($_GET['pid']) && $_GET['pid'] >= 0)
 		$page = $db->real_escape_string($_GET['pid']);
 	else
@@ -88,4 +88,4 @@
 		}
 	}
 ?>
-</div></div></body></html>
+</article></section></body></html>

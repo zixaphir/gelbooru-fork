@@ -12,7 +12,7 @@
 var posts = {}; var pignored = {};
 //]]>
 </script>
-<div id="content"><div id="post-list">
+<section><div id="post-list">
 <div class="sidebar">
 <div class="space">
 <h5>Search</h5>
@@ -108,7 +108,7 @@ var posts = {}; var pignored = {};
 	}
 	//No images found
 	if($numrows == 0)
-		print '</ul></div></div><div class="content"><div><h1>Nobody here but us chickens!</h1>';
+		print '</ul></div></div><article><div><h1>Nobody here but us chickens!</h1>';
 	else
 	{
 		if(isset($_GET['pid']) && $_GET['pid'] != "" && is_numeric($_GET['pid']) && $_GET['pid'] >= 0)
@@ -178,10 +178,10 @@ var posts = {}; var pignored = {};
 				echo '<li><a href="index.php?page=post&amp;s=list&amp;tags='.$t_decode."+".$c_decode.'">+</a><a href="index.php?page=post&amp;s=list&amp;tags='.$t_decode."+-".$c_decode.'">-</a> <span style="color: #a0a0a0;">? <a href="index.php?page=post&amp;s=list&amp;tags='.$c_decode.'">'.str_replace('_',' ',$current).'</a> '.$row['index_count'].'</span></li>';
 			}
 			//Print out image results and filter javascript
-			echo '<li><br /><br /></li></ul></div></div><div class="content">
+			echo '<li><br /><br /></li></ul></div></div><article>
 <div style="text-align: center; padding: 3px 6px; margin: 15px;">
 Filter content you don\'t want to see with "-<i>tag</i>". For instance, -loli would remove all content tagged loli from the post list.
-</div><div>';
+</div>';
 			$images .= "</div><br /><br /><div style='margin-top: 550px; text-align: right;'><a id=\"pi\" href=\"#\" onclick=\"showHideIgnored('0','pi'); return false;\"></a></div><div id='paginator'>";
 			$script .= 'filterPosts(posts);
             //]]>
@@ -213,5 +213,5 @@ Filter content you don\'t want to see with "-<i>tag</i>". For instance, -loli wo
 		}
 	}
 ?>
-</div><div id="footer"><a href="javascript:;" id="gal-toggle">Open Gallery</a><br /><br /><a href="index.php?page=post&amp;s=add">Add</a> | <a href="help/">Help</a></div><br /><br />
-</div></div></div><script type="text/javascript" src="script/gallery.js"></script></body></html>
+</article><footer><a href="javascript:;" id="gal-toggle">Open Gallery</a><br /><br /><a href="index.php?page=post&amp;s=add">Add</a> | <a href="help/">Help</a></footer><br /><br />
+</div></div></section><script type="text/javascript" src="script/gallery.js"></script></body></html>

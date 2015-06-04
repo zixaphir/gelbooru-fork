@@ -49,7 +49,7 @@
 		$result = $db->query($query);
 		$row = $result->fetch_assoc();
 ?>
-<div class="content">
+<article>
 	<form method="post" action="">
 	<table class="highlightable" style="font-size: 12px; width: 100%;"><tr><td>
 	Group: <?php print $row['group_name']; ?><br />
@@ -125,6 +125,7 @@
 	If you are deleting a group, make sure there are no users in it or they will not have a group assigned to their account and a lot of stuff will break.
 	<br />
 	<a href="?page=edit_group&delete=<?php echo $row['id']; ?>">Delete Group! (NO UNDO OR CONFIRMATION!)</a>
+</article>
 <?php
 	}
 	else

@@ -34,7 +34,7 @@
 		$result->close();
 		($r == '') ? $row['fcount'] = 0 : $row['fcount'] = $r['fcount'];
 		?>
-			<div id="content">
+		<section>
 			<h2><?php print $row['user'];
 			$user2 = new user();
 			if($user2->gotpermission('is_admin')){echo ' | <a href="'.$site_url.'/admin/index.php?page=ban_user&user_id='.$id.'">Ban User</a>';}?></h2>
@@ -138,6 +138,6 @@
 		echo'<script type="text/javascript">
 		filterPosts(posts)
 		</script>
-		</div></div>';
+		</div></section>';
 	}
 ?>

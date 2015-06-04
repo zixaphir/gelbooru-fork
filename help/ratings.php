@@ -2,7 +2,7 @@
 	require "../inv.header.php";
 	require "../includes/header.php";
 ?>
-<div id="content">
+<section>
 <div class="help">
 
   <h1>Help: Ratings</h1>
@@ -30,4 +30,5 @@
 	<p>You can filter search results by querying for <code>rating:safe</code>, <code>rating:questionable</code>, or <code>rating:explicit</code>. You can also combine them with other tags and they work as expected.</p>
 	<p>If you want to remove a rating from your search results, use <code>-rating:safe</code>, <code>-rating:questionable</code>, and <code>-rating:explicit</code>.</p>
 </div>
-</div></body></html>
+</div>
+</section></body></html>

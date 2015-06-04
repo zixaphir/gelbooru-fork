@@ -53,7 +53,7 @@
 	{
 		$query = "SELECT tag, alias FROM $alias_table WHERE status='pending'";
 		$result = $db->query($query);
-		print '<div class="content"><table width="100%" border="0" class="highlightable">
+		print '<article><table width="100%" border="0" class="highlightable">
 		<tr><th>Alias [What it should be!]</th><th>Tag [What they search for!]</th></tr>';
 		while($row = $result->fetch_assoc())
 			print '<tr><td><a href="?page=alias&amp;alias='.$row['alias'].'&amp;tag='.$row['tag'].'">'.$row['tag'].'</a></td><td><a href="?page=alias&amp;alias='.$row['alias'].'&amp;tag='.$row['tag'].'">'.$row['alias'].'</a></td>';
@@ -61,6 +61,7 @@
 		if($result->num_rows == 0)
 			echo "<tr><td><h1>No aliases has been requested.</h1></td></tr>";
 		$result->free_result();
+        echo "</table></article>"
 	}
 	$db->close();
 ?>

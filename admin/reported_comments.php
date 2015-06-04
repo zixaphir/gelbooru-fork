@@ -17,7 +17,7 @@
 			echo '<center>Unflagged comment!</center>';
 		}
 	}
-	echo '<div class="content"><table class="highlightable" style="font-size: 12px; width: 100%;"><tr><th>Remove?</th><th>Post ID:</th><th>Comment:</th><th>Score:</th><th>Date Posted:</th><th>Unflag:</th></tr>';
+	echo '<section><table class="highlightable" style="font-size: 12px; width: 100%;"><tr><th>Remove?</th><th>Post ID:</th><th>Comment:</th><th>Score:</th><th>Date Posted:</th><th>Unflag:</th></tr>';
 	//number of reports/page
 	$limit = 50;
 	//number of pages to display. number - 1. ex: for 5 value should be 4

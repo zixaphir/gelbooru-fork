@@ -43,7 +43,7 @@
 		{
 			if(!is_numeric($_POST['pthreshold']))
 			{
-				setcookie('post_threshold',0,time()+60*60*24*365);
+				setcookie('post_threshold',-2,time()+60*60*24*365);
 				$new_pthreshold = -2;
 			}
 			else
@@ -79,7 +79,7 @@
 	header("Pragma: cache");
 	require "includes/header.php";
 ?>
-<div id="content">
+<section>
 <form action="" method="post">
 <p><em>Separate individual tags and users with spaces.</em> You must have cookies and JavaScript enabled in order for filtering to work. Note that the user blacklist is case sensitive.</p>
 
@@ -115,4 +115,4 @@
 <div class="option">
 <input type="submit" name="submit" value="Save"/>
 </div>
-</form></div></body></html>
+</form></section></body></html>

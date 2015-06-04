@@ -23,7 +23,7 @@
 				print "You <b>really REALLY</b> don't want to do that. Trust me.";
 				exit;
 			}
-			print '<div class="content">Make note that banning using this tool will check the whole database for all IP addresses associated with this account. This will take a while if you have a <b>really</b> big database. Even then this will take forever. Just sit back.<br /><br />
+			print '<article>Make note that banning using this tool will check the whole database for all IP addresses associated with this account. This will take a while if you have a <b>really</b> big database. Even then this will take forever. Just sit back.<br /><br />
 			<form method="post" action="">
 			<table><tr><td>			
 			User:</td><td><input type="text" value="'.$row['user'].'" size="80" disabled /></td></tr>
@@ -32,7 +32,7 @@
 			<tr><td></td><td>
 			<input type="submit" value="Add Ban" /></td><tr></table>
 			</form>
-			</div></body></html>
+			</article></body></html>
 			';
 			exit;
 		}

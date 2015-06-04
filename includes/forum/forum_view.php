@@ -38,7 +38,7 @@
 		print '<div class="post"><div class="author">
 		<h6 class="author"><a name="'.$row['id'].'"></a><a href="index.php?page=account_profile&amp;uname='.$row['author'].'" style="font-size: 14px;">'.$row['author'].'</a></h6>
 		<span class="date">'.$date_made.' </span>
-		</div><div class="content">
+		</div><article>
 		<h6 class="response-title">'.$row['title'].'</h6>
 		<div class="body">'.$misc->short_url($misc->swap_bbs_tags($misc->linebreaks($row['post']))).'</div>
 		<div class="footer">';
@@ -51,7 +51,7 @@
 			print ' | <a href="index.php?page=forum&amp;s=remove&amp;pid='.$id.'&amp;cid='.$row['id'].'">remove</a><br />';
 		if($uname == $row['author'] || $user->gotpermission('edit_forum_posts'))
 			print '<form method="post" action="index.php?page=forum&amp;s=edit&amp;pid='.$id.'&amp;cid='.$row['id'].'&amp;ppid='.$page.'" style="display:none" id="c'.$row['id'].'"><table><tr><td><input type="text" name="title" value="'.$row['title'].'"/></td></tr><tr><td><textarea name="post" rows="4" cols="6" style="width: 450px; height: 150px;">'.$row['post'].'</textarea></td></tr><tr><td><input type="submit" name="submit" value="Edit"/></td></tr></table></form>';
-		echo '</div></div></div>';
+		echo '</div></article></div>';
 	}
 	echo '<div class="paginator"><div id="paginator">';
 	$misc = new misc();

@@ -34,7 +34,7 @@
 				print "Could not add group.";
 		}
 	}
-?><div class="content">
+?><article>
 <form method="post" action="">
 <table><tr><td>Group name:<br />
 <input type="text" name="gname"/>
@@ -47,3 +47,4 @@ Is this group the default group? (a default group must exist)<br />
 <input type="checkbox" name="default" />
 </td></tr></table>
 </form>
+</article>

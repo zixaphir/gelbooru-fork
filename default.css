@@ -222,15 +222,15 @@ h5 a:hover {
   margin-bottom: 1em;
 }
 
-div#header {
+header {
   margin-bottom: 1em;
 }
 
-div#content {
+section {
 
 }
 
-div#footer {
+footer {
   margin-top: 1em;
   text-align: center;
   font-size: 120%;
@@ -250,7 +250,7 @@ div.sidebar li {
   margin: 0;
 }
 
-div.content {
+article {
   float: left;
   width: 78%;
   min-width: calc(100% - 200px);
@@ -854,19 +854,19 @@ div.response-list > div.post > div.author > h6 {
   font-size: 1.3em;
 }
 
-div.response-list > div.post > div.content {
+div.response-list > div.post > article {
   float: left;
   width: 30em;
   padding: 0 0 0 10px;
   margin: 0;
 }
 
-div.response-list > div.post > div.content > div.footer {
+div.response-list > div.post > article > div.footer {
   margin-top: 1em;
   color: #CCC;
 }
 
-div.response-list > div.post > div.content > div.footer a {
+div.response-list > div.post > article > div.footer a {
   color: #666;
 }
 

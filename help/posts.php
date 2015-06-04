@@ -3,7 +3,7 @@
 	require "../includes/header.php";
 ?>
 
-<div id="content">
+<section>
 <div class="help">
   <h1>Help: Posts</h1>
   <p>A post represents a single file that's been uploaded. Each post can have several tags, comments, and notes. If you have an account, you can also add a post to your favorites.</p>
@@ -31,4 +31,4 @@
     <p>When you're not searching for a tag, by default the tag list will show the last few tags added to the database. When you are searching for tags, the tag list will show related tags, alphabetically.</p>
 </div>
   
-</div></div></body></html>
+</div></section></body></html>

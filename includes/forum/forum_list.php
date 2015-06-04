@@ -84,9 +84,9 @@
 	echo '</table><div class="paginator"><div id="paginator">';
 	$misc = new misc();
 	print $misc->pagination($_GET['page'],$_GET['s'],$row['id'],$limit,$page_limit,$numrows,$_GET['pid'],$_GET['tags'],$_GET['query']);
-	echo '</div><br /><div id="footer"><a href="#" onclick="showHide(\'new_topic\'); return false;">New Topic</a> | <a href="'.$site_url.'/help/">Help</a>';
+	echo '</div><br /><footer><a href="#" onclick="showHide(\'new_topic\'); return false;">New Topic</a> | <a href="'.$site_url.'/help/">Help</a>';
 ?>	
-</div></div><form method="post" action="index.php?page=forum&amp;s=add" id="new_topic" style="display:none">
+</footer></div><form method="post" action="index.php?page=forum&amp;s=add" id="new_topic" style="display:none">
 <table><tr><td>
 Topic:<br/>	
 <input type="text" name="topic" value=""/>

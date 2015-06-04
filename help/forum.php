@@ -2,7 +2,7 @@
 	require "../inv.header.php";
 	require "../includes/header.php";
 ?>
-<div id="content">
+<section>
 <div class="help">
   <h1>Help: Forum</h1>
   <p>All forum posts are sanitized, meaning all HTML is escaped. That being said, there are a few features you can use:</p>
@@ -27,4 +27,4 @@
 	<p>You can link to specific forum posts using the following shorthand: [forump]nnnn[/forump], where nnnn is the id number of the forum post.</p>
 </div>
 
-</div></div></body></html>
+</div></section></body></html>
