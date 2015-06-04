@@ -1,13 +1,16 @@
-* {
-  font-family: calibri, verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
 body {
-  font-family: calibri, verdana, sans-serif;
   background: #fff;
   padding: 1em 2em;
+  font-size: 11pt;
+}
+
+body, input {
+  font-family: calibri, verdana, sans-serif;
+}
+
+input, h1, h2, h3, h4, h5, ul, li {
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
