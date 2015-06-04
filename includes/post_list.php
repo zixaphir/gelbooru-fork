@@ -1,6 +1,7 @@
 <?php
 	//number of images/page
 	$limit = 32;
+    $tags_limit = 20;
 	//number of pages to display. number - 1. ex: for 5 value should be 4
 	$page_limit = 10;
 	require "includes/header.php";
@@ -135,16 +136,16 @@ var posts = {}; var pignored = {};
                 ';
 			$tcount = 0;
 			$result = $db->query($query) or die($db->error);
-			//Limit main tag listing to 40 tags. Keep the loop down to the minimum really.
+			//Limit main tag listing to $tags_limit tags. Keep the loop down to the minimum really.
 			while($row = $result->fetch_assoc())
 			{
 				$tags = mb_trim($row['tags']);
-				if($tcount <= 40)
+				if($tcount <= $tags_limit)
 				{
 					$ttags = explode(" ",$tags);
 					foreach($ttags as $current)
 					{
-						if($current != "" && $current != " ")
+						if($current != "" && $current != " " && !array_key_exists($current, $gtags))
 						{
 							$gtags[$current] = $current;
 							++$tcount;
@@ -154,8 +155,6 @@ var posts = {}; var pignored = {};
 				$images .= '<span class="thumb"><a id="p'.$row['id'].'" href="index.php?page=post&amp;s=view&amp;id='.$row['id'].'"><img src="'.$thumbnail_url.'/'.$row['directory'].'/thumbnail_'.$row['image'].'" alt="post" border="0" title="'.$row['tags'].' score:'.$row['score'].' rating:'. $row['rating'].'"/></a></span>';
                 $script .= 'posts['.$row['id'].'] = {\'tags\':\''.strtolower(str_replace('\\',"&#92;",str_replace("'","&#039;",$tags))).'\'.split(/ /g), \'rating\':\''.$row['rating'].'\', \'score\':'.$row['score'].', \'user\':\''.str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['owner']))).'\'};
                 ';
-
-				++$tcount;
 			}
 			$result->free_result();
 			if(isset($_GET['tags']) && $_GET['tags'] != "" && $_GET['tags'] != "all")
