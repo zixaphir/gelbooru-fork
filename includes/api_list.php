@@ -1,4 +1,5 @@
 <?php
+	$cache = new cache();
 	if(isset($_GET['limit']) && $_GET['limit'] != "" && is_numeric($_GET['limit']) && $_GET['limit'] >= 0)
 	{
 		$limit = $db->real_escape_string($_GET['limit']);
@@ -78,7 +79,6 @@
 			if(!is_dir("$main_cache_dir".""."api_cache/"))
 				mkdir("$main_cache_dir".""."api_cache");
 			$tags = $new_tag_cache;
-			$cache = new cache();
 			$no_cache = true;
 			if(is_dir("$main_cache_dir".""."api_cache/".$tags."/") && file_exists("$main_cache_dir".""."api_cache/".$tags."/".$page.".".$api_type))
 			{

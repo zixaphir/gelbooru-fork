@@ -4,6 +4,25 @@
 		// require "includes/dapi_post.php"; ?
 		$post = new post();
 
+		function fixTags($tags)
+		{
+			$tags = mb_trim($tags);
+			$tags = str_replace("&#039;","'",$tags);
+			if(strpos($tags,'&') !== false)
+				$tags = str_replace("&", "&amp;", $tags);
+			if(strpos($tags,'>') !== false)
+				$tags = str_replace(">", "&gt;", $tags);
+			if(strpos($tags,'<') !== false)
+				$tags = str_replace("<", "&lt;", $tags);
+			if(strpos($tags,"'") !== false)
+				$tags = str_replace("'", "&apos;", $tags);
+			if(strpos($tags,'"') !== false)
+				$tags = str_replace('"', "&quot;", $tags);
+			if(strpos($tags,'\r') !== false)
+				$tags = str_replace('\r', "", $tags); 
+			return $tags;
+		}
+
 		function getUserID($name)
 		{
 			global $db, $user_table;
@@ -41,7 +60,7 @@
 				'parent_id'      => $parent_id,
 				'preview_url'    => $thumbnail_url.'/'.$row['directory'].'/thumbnail_'.$row['image'],
 				'rating'         => strtolower(substr($row['rating'], 0, 1)),
-				'tags'           => mb_trim($row['tags']),
+				'tags'           => fixTags($row['tags']),
 				'id'             => $row['id'],
 				// 'change'         => 'UNIMPLEMENTED',
 				'md5'            => $row['hash'],
@@ -50,7 +69,7 @@
 				// 'status'         => 'UNIMPLEMENTED',
 				'source'         => $row['source'],
 				'has_notes'      => $post->has_notes($row['id']),
-				'has_comments'   => $row['last_comment'] != null,
+				'has_comments'   => array_key_exists('last_comment', $row) && $row['last_comment'] != null,
 				'has_children'   => $post->has_children($row['id'])
 			));
 		}
@@ -68,7 +87,7 @@
 			else
 				$has_notes = 'false';
 
-			$has_comments = $row['last_comment'] != null;
+			$has_comments = array_key_exists('last_comment', $row) && $row['last_comment'] != null;
 			if ($has_comments)
 				$has_comments = 'true';
 			else
@@ -81,7 +100,7 @@
 				$has_children = 'false';
 
 			$file_url = $site_url.'/'.$image_folder.'/'.$row['directory'].'/'.$row['image'];
-			return '<post height="'.$row['height'].'" score="'.$row['score'].'" file_url="'.$file_url.'" parent_id="'.$parent_id.'" sample_url="'.$file_url.'" sample_width="'.$row['width'].'" sample_height="'.$row['height'].'" preview_url="'.$thumbnail_url.'/'.$row['directory'].'/thumbnail_'.$row['image'].'" rating="'.strtolower(substr($row['rating'], 0, 1)).'" tags="'.$row['tags'].'" id="'.$row['id'].'" width="'.$row['width'].'" change="UNIMPLEMENTED" md5="'.$row['hash'].'" creator_id="'.getUserID($row['owner']).'" has_children="'.$has_children.'" created_at="'.$row['creation_date'].'" status="UNIMPLEMENTED" source="'.$row['source'].'" has_notes="'.$has_notes.'" has_comments="'.$has_comments.'" preview_width="150" preview_height="150"/>'."\r\n";
+			return '<post height="'.$row['height'].'" score="'.$row['score'].'" file_url="'.$file_url.'" parent_id="'.$parent_id.'" sample_url="'.$file_url.'" sample_width="'.$row['width'].'" sample_height="'.$row['height'].'" preview_url="'.$thumbnail_url.'/'.$row['directory'].'/thumbnail_'.$row['image'].'" rating="'.strtolower(substr($row['rating'], 0, 1)).'" tags="'.fixTags($row['tags']).'" id="'.$row['id'].'" width="'.$row['width'].'" change="UNIMPLEMENTED" md5="'.$row['hash'].'" creator_id="'.getUserID($row['owner']).'" has_children="'.$has_children.'" created_at="'.$row['creation_date'].'" status="UNIMPLEMENTED" source="'.$row['source'].'" has_notes="'.$has_notes.'" has_comments="'.$has_comments.'" preview_width="150" preview_height="150"/>'."\r\n";
 		}
 
 		if ($_GET['q'] == "index") {
