@@ -297,9 +297,8 @@
 			while(!feof($f))
 				$data .= fread($f,4096);
 			fclose($f);
-			if(preg_match("#<(script|html|head|title|body|table|a\s+href|link|plaintext)#si", $data, $matched) == 1)
+			if(preg_match("#<(script|html|head|title|body|table|a\s+href|link|plaintext)#si", $data) == 1)
 			{
-                echo "matched: ".$matched[0].'>';
 				echo "Invalid Data detected.";
 				unlink("./tmp/".$fname.$ext);
 				return false;
