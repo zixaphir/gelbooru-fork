@@ -145,7 +145,7 @@ var posts = {}; var pignored = {};
 					$ttags = explode(" ",$tags);
 					foreach($ttags as $current)
 					{
-						if($current != "" && $current != " " && !array_key_exists($current, $gtags))
+						if($current != "" && $current != " " && empty($gtags[$current]))
 						{
 							$gtags[$current] = $current;
 							++$tcount;

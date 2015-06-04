@@ -69,7 +69,7 @@
 				// 'status'         => 'UNIMPLEMENTED',
 				'source'         => $row['source'],
 				'has_notes'      => $post->has_notes($row['id']),
-				'has_comments'   => array_key_exists('last_comment', $row) && $row['last_comment'] != null,
+				'has_comments'   => !empty($row['last_comment']),
 				'has_children'   => $post->has_children($row['id'])
 			));
 		}
@@ -87,7 +87,7 @@
 			else
 				$has_notes = 'false';
 
-			$has_comments = array_key_exists('last_comment', $row) && $row['last_comment'] != null;
+			$has_comments = !empty($row['last_comment']);
 			if ($has_comments)
 				$has_comments = 'true';
 			else
