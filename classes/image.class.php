@@ -4,6 +4,7 @@
 		private $image_path;
 		private $thumbnail_path;
 		private $dimension;
+		private $info;
 		public $error;
 		function __construct()
 		{
@@ -13,20 +14,17 @@
 			$this->image_path = $image_folder;
 			$this->thumbnail_path = $thumbnail_folder;
 			$this->dimension = $dimension;
+			$this->info = array();
 		}
 
-		function imagick_thumbnail($image, $timage, $ext, $thumbnail_name)
+		function imagick_thumbnail($image, $timage, $ext, $thumbnail_name, $imginfo)
 		{
-			if ($imginfo) {
-				$tmp_ext = ".".str_replace("image/","",$imginfo['mime']);
-				if($tmp_ext != $ext)
-				{
-					$ext = $tmp_ext;
-				}
-			}
 			try {
 				$imagick = new Imagick();
 				$imagick->readImage($image);
+				$info = $imagick->getImageGeometry();
+				$this->info[0] = $info['width'];
+				$this->info[1] = $info['height'];
 				$imagick->thumbnailImage($this->dimension, $this->dimension, true);
 				$imagick->writeImage("./".$this->thumbnail_path."/".$timage[0]."/".$thumbnail_name);
 				$imagick->clear();
@@ -38,18 +36,8 @@
 			return true;
 		}
 
-		function gd_thumbnail($image, $timage, $ext, $thumbnail_name)
+		function gd_thumbnail($image, $timage, $ext, $thumbnail_name, $imginfo)
 		{
-			$imginfo = getimagesize($image);
-
-			if ($imginfo) {
-				$tmp_ext = ".".str_replace("image/","",$imginfo['mime']);
-				if($tmp_ext != $ext)
-				{
-					$ext = $tmp_ext;
-				}
-			}
-
 			switch ($ext)
 			{
 				case '.jpg':
@@ -61,6 +49,7 @@
 					break;
 				case '.png':
 					$img = imagecreatefrompng($image);
+					break;
 				case '.webm':
 					$vid = new webm($image);
 					if ($vid->valid_webm()) {
@@ -70,7 +59,7 @@
 							imagesy($img)
 						];
 					} else {
-						echo "not valid webm";
+						echo "Invalid WEBM";
 						return false;
 					}
 					break;
@@ -78,6 +67,8 @@
 					echo "Invalid Filetype";
 					return false;
 			}
+			
+			$this->info = $imginfo;
 
 			if(!$img) {
 				echo "Unable to create temporary image.";
@@ -106,6 +97,8 @@
 					imagepng($thumbnail,"./".$this->thumbnail_path."/".$timage[0]."/".$thumbnail_name);
 					break;
 				default:
+					imagedestroy($img);
+					imagedestroy($thumbnail);
 					echo "Invalid Extension ".$ext.".";
 					return false;
 			}
@@ -124,13 +117,28 @@
 			$count = count($ext);
 			$ext = $ext[$count-1];
 			$ext = ".".$ext;
+
 			$thumbnail_name = "thumbnail_".$image;
 			$image = "./".$this->image_path."/".$timage[0]."/".$image;
 
+			$imginfo = getimagesize($image);
+			if ($imginfo) {
+				$tmp_ext = ".".str_replace("image/","",$imginfo['mime']);
+				if($tmp_ext != $ext)
+				{
+					$ext = $tmp_ext;
+				}
+			}
+
 			if (extension_loaded('imagick') && $ext != '.webm' && $ext != '.gif')
-				return $this->imagick_thumbnail($image, $timage, $ext, $thumbnail_name);
+				return $this->imagick_thumbnail($image, $timage, $ext, $thumbnail_name, $imginfo);
 			else
-				return $this->gd_thumbnail($image, $timage, $ext, $thumbnail_name);
+				return $this->gd_thumbnail($image, $timage, $ext, $thumbnail_name, $imginfo);
+		}
+
+		function getInfo()
+		{
+			return $this->info;
 		}
 
 		function getremoteimage($url)
@@ -289,8 +297,9 @@
 			while(!feof($f))
 				$data .= fread($f,4096);
 			fclose($f);
-			if(preg_match("#<script|<html|<head|<title|<body|<pre|<table|<a\s+href|<img|<plaintext#si", $data) == 1)
+			if(preg_match("#<(script|html|head|title|body|table|a\s+href|link|plaintext)#si", $data, $matched) == 1)
 			{
+                echo "matched: ".$matched[0].'>';
 				echo "Invalid Data detected.";
 				unlink("./tmp/".$fname.$ext);
 				return false;
