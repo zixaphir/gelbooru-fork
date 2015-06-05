@@ -312,7 +312,7 @@ setImage = (image) -> try
 
   $.replace el, a
   
-  a.parentElement.click()
+  a.focus()
 
   info = $ '.gal-ex-info', gal
 

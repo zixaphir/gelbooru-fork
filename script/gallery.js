@@ -421,7 +421,7 @@
         });
       }
       $.replace(el, a);
-      a.parentElement.click();
+      a.focus();
       info = $('.gal-ex-info', gal);
       info.textContent = "ID: " + image.id + "\nScore: " + (image.score || 0) + "\nPosted: " + image.age + "\nWidth: " + image.width + "\nHeight: " + image.height + "\nType: " + (image.type.toUpperCase());
       info.innerHTML = "<p>" + (info.textContent.split('\n').join('</p><p>')) + "</p>";
