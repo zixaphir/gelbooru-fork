@@ -454,9 +454,7 @@ mkURL = (pid) ->
   g.attr.pid = pid if pid
   queryURL = g.baseURL
   queryURL += "#{key}=#{g.attr[key]}&" for key in g.attr.keys
-  queryURL = queryURL[...-1]
-  console.log queryURL
-  queryURL
+  queryURL[...-1]
 
 setup = ->
   g.images = new SimpleDict()

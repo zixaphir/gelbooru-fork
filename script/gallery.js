@@ -580,9 +580,7 @@
       key = ref[j];
       queryURL += key + "=" + g.attr[key] + "&";
     }
-    queryURL = queryURL.slice(0, -1);
-    console.log(queryURL);
-    return queryURL;
+    return queryURL.slice(0, -1);
   };
 
   setup = function() {
