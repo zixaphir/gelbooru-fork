@@ -1,3 +1,30 @@
+/*
+ * Largely based on 4chan X's $ and polyfill.
+ * 
+ * Copyright (c) 2009-2011 James Campos <james.r.campos@gmail.com>
+ * Copyright (c) 2012-2014 Nicolas Stepien <stepien.nicolas@gmail.com>
+ * 
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */
+ 
 (function() {
   "use strict";
   var FileDragHover, FileSelectHandler, SIZELIMIT, abort, addEvent, addEvents, append, asap, busy, bytesToString, clean, current, d, dropEl, error, escapeRE, fCount, failedCount, files, form, forms, input, keepGoing, load, logError, mkElement, mkForm, mkInput, mkThumb, myTags, name, prepare, progress, progressCell, progressRow, r, removeForm, roundToPlace, showError, size, total, upload, uploadAll, uploadAllBtn, uploadFail, uploadingAll,
@@ -482,6 +509,25 @@
       textContent: 'Edit'
     }));
     return span;
+  })();
+  
+  (function() {
+    var base;
+    return (base = HTMLCanvasElement.prototype).toBlob || (base.toBlob = function(cb) {
+      var data, i, j, l, ref, ui8a;
+      data = atob(this.toDataURL().slice(22));
+
+      /*
+       */
+      l = data.length;
+      ui8a = new Uint8Array(l);
+      for (i = j = 0, ref = l; j < ref; i = j += 1) {
+        ui8a[i] = data.charCodeAt(i);
+      }
+      return cb(new Blob([ui8a], {
+        type: 'image/png'
+      }));
+    });
   })();
 
   asap((function() {
