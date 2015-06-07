@@ -48,7 +48,7 @@
 		echo '<div class="sidebar"><div class="space">
 		<h5>Search</h5>
 		<form action="index.php?page=search" method="post">
-		<input id="stags" name="tags" size="20" type="text" />
+		<input id="tags" name="tags" size="20" type="text" />
 		<br /><input name="commit" style="margin-top: 3px; background: #fff; border: 1px solid #dadada; width: 172px;" type="submit" value="Search" />
 		</form><small>(Supports wildcard *)</small>
 		</div>
