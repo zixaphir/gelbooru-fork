@@ -77,9 +77,7 @@
 		$domain = $cache->select_domain();
 ?>
 		<script type="text/javascript">
-		//<![CDATA[
 			posts = {}; pignored = {};
-		//]]>
 		</script>
 		<div style="display:none">
 			<a href="#" id="blacklist-count"></a>
@@ -99,9 +97,7 @@
 			?>
 				<span class="thumb" id="p<?php print $r['id']; ?>"><a href="index.php?page=post&amp;s=view&amp;id=<?php print $r['id']; ?>"><img src="<?php print $thumbnail_url.'/'.$r['dir']; ?>/thumbnail_<?php print $r['image']; ?>" alt="<?php print $r['tags'].' rating:'.$r['rating'].' score:'.$r['score'].' user:'.$r['owner']; ?>" class="preview" title="<?php print $r['tags'].' rating:'.$r['rating'].' score:'.$r['score'].' user:'.$r['owner']; ?>"></a></span>
 			<script type="text/javascript">
-			//<![CDATA[
 				posts['<?php print $r['id']; ?>'] = {'tags':'<?php print mb_strtolower(str_replace('\\',"&#92;",str_replace("'","&#039;",substr($r['tags'],1,strlen($r['tags'])-2))),'UTF-8');?>'.split(/ /g), 'rating':'<?php print mb_strtolower($r['rating'],'UTF-8'); ?>', 'score':'<?php print $r['score']; ?>', 'user':'<?php print mb_strtolower(str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$r['owner']))),'UTF-8'); ?>'}
-			//]]>
 			</script>
 			<?php
 			$res->close();
@@ -124,10 +120,8 @@
 ?>
   <span class="thumb" id="p<?php print $row['id']; ?>"><a href="index.php?page=post&amp;s=view&amp;id=<?php print $row['id']; ?>"><img src="<?php print $thumbnail_url.'/'.$row['dir']; ?>/thumbnail_<?php print $row['image']; ?>" alt="<?php print $row['tags'].' rating:'.$row['rating'].' score:'.$row['score'].' user:'.$row['owner']; ?>" class="preview" title="<?php print $row['tags'].' rating:'.$row['rating'].' score:'.$row['score'].' user:'.$row['owner']; ?>"></a></span>
 	<script type="text/javascript">
-		//<![CDATA[
-			posts['<?php print $row['id']; ?>'] = {'tags':'<?php print mb_strtolower(str_replace('\\',"&#92;",str_replace("'","&#039;",substr($row['tags'],1,strlen($row['tags'])-2))),'UTF-8');?>'.split(/ /g), 'rating':'<?php print mb_strtolower($row['rating'],'UTF-8'); ?>', 'score':'<?php print $row['score']; ?>', 'user':'<?php print mb_strtolower(str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['owner']))),'UTF-8'); ?>'}
-		//]]>
-		</script>
+		posts['<?php print $row['id']; ?>'] = {'tags':'<?php print mb_strtolower(str_replace('\\',"&#92;",str_replace("'","&#039;",substr($row['tags'],1,strlen($row['tags'])-2))),'UTF-8');?>'.split(/ /g), 'rating':'<?php print mb_strtolower($row['rating'],'UTF-8'); ?>', 'score':'<?php print $row['score']; ?>', 'user':'<?php print mb_strtolower(str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['owner']))),'UTF-8'); ?>'}
+	</script>
 <?php
 		}
 		if($result->num_rows<1)

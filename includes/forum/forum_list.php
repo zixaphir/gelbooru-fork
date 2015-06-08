@@ -99,6 +99,5 @@ Post:<br />
 <input type="submit" name="submit" value="Create topic"/>
 </td></tr></table></form>
 <script type="text/javascript">
-//<![CDATA[
 document.getElementById('conf').value=1;
-//]]></script></body></html>
+</script></body></html>

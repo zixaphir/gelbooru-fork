@@ -112,9 +112,7 @@
 		?>
 		<div id="comment-list2">
 		<script type="text/javascript">
-		//<![CDATA[
 		var posts = {}; posts.comments = {}; posts.ignored = {}; posts.totalcount = {}; posts.tags = {}; posts.rating = {}; posts.score = {}; posts.rating[0] = ''; var phidden = {}; var cthreshold = parseInt(readCookie('comment_threshold')) || -1; var users = readCookie('user_blacklist').split(/[, ]|%20+/g);
-		//]]>
 		</script>
 		<?php
 		if(isset($_GET['pid']) && $_GET['pid'] != "" && is_numeric($_GET['pid']) && $_GET['pid'] >= 0)
@@ -180,17 +178,13 @@
 				$user = $row['owner'];
 				$tags = mb_trim($row['tags']);
 				$images .= '<script type="text/javascript">
-				//<![CDATA[
 				posts.tags['.$row['post_id'].'] = \''.str_replace('\\',"&#92;",str_replace("'","&#039;",$tags)).'\'
 				posts.rating['.$row['post_id'].'] = \''.$row['rating'].'\'
 				posts.score['.$row['post_id'].'] = \''.$row['p_score'].'\'		
-				//]]>
 				</script>';
 				if($img != "")
 					$images .= '<script type="text/javascript">
-					//<![CDATA[
 					posts.totalcount['.$lastpid.'] = \''.$ptcount.'\'
-					//]]>
 					</script>';
 				$ptcount = 0;
 				$images .= '<div class="col1"><a href="index.php?page=post&amp;s=view&amp;id='.$row['post_id'].'"><img src="'.$thumbnail_url.'/'.$row['dir'].'/thumbnail_'.$row['image'].'" border="0" class="preview" title="'.$tags.'" alt="thumbnail"/></a></div><div class="col2">';
@@ -198,9 +192,7 @@
 			}
 			$images .= '<div class="comment" id="c'.$row['id'].'"><h4><a href="index.php?page=account_profile&amp;uname='.$row['user'].'">'.$row['user'].'</a></h4><h6 class="comment-header">Posted on '.$posted_at.'  ('; $row['spam'] == false ? $images .= '<a id="rc'.$row['id'].'"></a><a href="#" id="rcl'.$row['id'].'" onclick="Javascript:spam(\'comment\',\''.$row['id'].'\')">Flag for deletion</a>)</h6>' : $images .= "<b>Already flagged</b>)</h6>"; $images .= "<div id=\"cbody".$row['id']."\"><p>".$misc->swap_bbs_tags($misc->short_url($misc->linebreaks($row['comment'])))."</p></div></div>
 			<script type=\"text/javascript\">
-			//<![CDATA[
 			posts.comments[".$row['id']."] = {'score':".$row['score'].", 'user':'".str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['user'])))."', 'post_id':'".$row['post_id']."'}
-			//]]>
 			</script>";	
 			++$ccount;
 			++$ptcount;
@@ -222,15 +214,11 @@
 		$images .=	'</ul></div></div></div>';
 		$result->free_result();
 		$images .= '<script type="text/javascript">
-		//<![CDATA[
 		posts.totalcount['.$lastpid.'] = \''.$ptcount.'\'
-		//]]>
 		</script>
 		<br /><a href="#" id="ci" onclick="showHideCommentListIgnored(); return false;">(0 hidden)</a><br /><br />
 		<script type="text/javascript">
-		//<![CDATA[
 		filterCommentList(\''.$ccount.'\')
-		//]]>
 		</script>';
 		echo $images;
 		//Pagination. Nothing really needs to be changed at this point.

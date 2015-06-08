@@ -13,9 +13,7 @@
 		require "includes/header.php";
 		?>
 		<script type="text/javascript">
-		//<![CDATA[
 		var posts = {}; var pignored = {};
-		//]]>
 		</script>
 		<?php
 		$id = $db->real_escape_string($_GET['id']);
@@ -40,16 +38,12 @@
 			$tags = substr($tags,0,strlen($tags)-1);
 			$images .= '<span class="thumb" style="margin: 10px;"><a href="index.php?page=post&amp;s=view&amp;id='.$row['id'].'" id="p'.$row['id'].'" onclick="document.location=\'index.php?page=post&amp;s=view&amp;id='.$row['id'].'\'; return false;"><img src="'.$domain.'/thumbnails/'.$row['dir'].'/thumbnail_'.$row['image'].'" title="'.$tags.'" border="0" alt="image_thumb"/></a>'; (isset($_COOKIE['user_id']) && $_COOKIE['user_id'] == $id) ? $images .= '<br /><a href="#" onclick="document.location=\'index.php?page=favorites&s=delete&id='.$row['id'].'&pid='.$page.'\'; return false;"><b>Remove</b></a></span>' : $images .= '</span>';
 			$images .= '<script type="text/javascript">
-			//<![CDATA[
 			posts['.$row['id'].'] = {\'tags\':\''.str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$tags))).'\'.split(/ /g), \'rating\':\''.$row['rating'].'\', \'score\':'.$row['score'].', \'user\':\''.str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['owner']))).'\'}
-			//]]>
 			</script>';
 		}
 		$images .= '<div style="margin-top: 550px; text-align: right;"><a id="pi" href="#" onclick="showHideIgnored(\'0\',\'pi\'); return false;"></a></div>
 		<script type="text/javascript">
-		//<![CDATA[
 		filterPosts(posts)
-		//]]>
 		</script>
 		<div id=\'paginator\'>';
 		echo $images;

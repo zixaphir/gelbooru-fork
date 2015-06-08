@@ -236,7 +236,6 @@
 	</form>
 	<script language="javascript" type="text/javascript" src="/script/multiupload.js"></script>
 	<script type="text/javascript">
-	//<![CDATA[
 	function toggleTags(tag, id, lid)
 	{
 		temp = new Array(1);
@@ -253,5 +252,4 @@
 			$(lid).innerHTML="<b>"+tag+"</b> ";
 		}
 	}
-	//]]>
 	</script></div></body></html>

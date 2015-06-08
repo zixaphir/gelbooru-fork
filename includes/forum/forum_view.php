@@ -89,9 +89,8 @@
 		<input type="submit" name="submit" value="Post"/>
 		</td></tr></table></form>
 		<script type="text/javascript">
-		//<![CDATA[
 		document.getElementById(\'conf\').value=1;
-		//]]></script>';
+		</script>';
 	}
 ?>
 </div></div></body></html>

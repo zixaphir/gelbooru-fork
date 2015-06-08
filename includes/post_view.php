@@ -85,7 +85,6 @@
 		}
 		echo '<br />Posted on '.$post_data['creation_date'].' by  <a href="index.php?page=account_profile&amp;uname='.$post_data['owner'].'">'.$post_data['owner'].'</a><br /><p id="note-count"></p>
 		<script type="text/javascript">
-		//<![CDATA[
 		Note.post_id = '.$id.';';
 		$notes = '';
 		$note_data = $post->get_notes($id);
@@ -93,7 +92,7 @@
 			echo 'Note.all.push(new Note('.$retme['id'].', false));';
 		echo 'Note.updateNoteCount();
 		Note.show();
-		//]]></script>';
+		</script>';
 		echo '<a href="#" onclick="if(confirm(\'Are you sure you want to delete this post?\')){var f = document.createElement(\'form\'); f.style.display = \'none\'; this.parentNode.appendChild(f); f.method = \'POST\'; f.action = \'./public/remove.php?id='.$id.'&amp;removepost=1\'; f.submit();}; return false;">Remove</a> | <a href="#" onclick="Note.create('.$id.'); return false;">Add note</a> | <a href="#" onclick="addFav(\''.$id.'\'); return false;">Keep</a> | <a href="#" onclick="showHide(\'edit_form\'); return false;">Edit</a> | <a href="#" onclick="document.location=\'index.php?page=history&amp;type=page_notes&amp;id='.$id.'\'; return false;">Note history</a> | <a href="index.php?page=history&amp;type=tag_history&amp;id='.$id.'">Tag History</a>'; ?> <?php $prev_next['0'] != "" ? print ' | <a href="index.php?page=post&amp;s=view&amp;id='.$prev_next['0'].'">Previous</a>' : print ""; $prev_next['1'] != "" ? print ' | <a href="index.php?page=post&amp;s=view&amp;id='.$prev_next['1'].'">Next</a>' : print ""; $post_data['parent'] == 0 ? print "<br />" : print "<br /><a href=\"index.php?page=post&s=view&id=".$post_data['parent']."\">Parent</a> | ";
 ?>
 		<form method="post" action="./public/edit_post.php" id="edit_form" name="edit_form" style="display:none">
@@ -129,12 +128,9 @@
 		</td></tr><tr><td><input type="submit" name="submit" value="Save changes" />
 		</td></tr></table></form>
 		<script type="text/javascript">
-		//<![CDATA[
 			$(\'pconf\').value=1;			
-		//]]>
 		</script>
 		<script type="text/javascript">
-		//<![CDATA[
 		var my_tags = readCookie("tags").split(/[, ]|%20+/g);
 		var my_tags_length = my_tags.length;
 		var temp_my_tags = Array();
@@ -163,10 +159,8 @@
 			$(\'my-tags\').innerHTML=links;
 		else
 			$(\'my-tags\').innerHTML=\'<a href="index.php?page=account-options">Edit</a>\';
-		//]]>
 		</script>
 		<script type="text/javascript">
-		//<![CDATA[
 		function toggleTags(tag, id, lid)
 		{
 			var input = $(\'post_tags\');
@@ -185,13 +179,10 @@
 			}
 			return false;
 		}
-		//]]>
 		</script>
 		<br /><br />
 		<script type="text/javascript">
-		//<![CDATA[
 		var posts = {}; posts['.$id.'] = {}; posts['.$id.'].comments = {}; posts['.$id.'].ignored = {}; var cthreshold = parseInt(readCookie(\'comment_threshold\')) || -1; var users = readCookie(\'user_blacklist\').split(/[, ]|%20+/g);
-		//]]>
 		</script>';
 
 		$data = '';
@@ -248,9 +239,7 @@
 ?>
 			(<?php $row['spam'] == false ? print "<a id=\"rc".$row['id']."\"></a><a href=\"#\" id=\"rcl".$row['id']."\" onclick=\"Javascript:spam('comment','".$row['id']."')\">Report as spam</a>)" : print "<b>Reported</b>)"; $got_permission == true ? print ' (<a href="#" onclick="document.location=\'public/remove.php?id='.$row['id'].'&removecomment=1&post_id='.$id.'\'; return false;">Remove</a>)' : print ''; print "</b><br />".$misc->swap_bbs_tags($misc->short_url($misc->linebreaks($row['comment'])));?><br /></div>
 			<script type="text/javascript">
-			//<![CDATA[
 			posts[<?php echo $id;?>].comments[<?php echo $row['id'];?>] = {'score':<?php echo $row['score'];?>, 'user':'<?php echo str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['user'])));?>'}
-			//]]>
 			</script>
 <?php
 			if($got_permission !== false)
@@ -266,9 +255,8 @@
 		$misc = new misc();
 		print $misc->pagination($_GET['page'],$_GET['s'],$id,$limit,$page_limit,$count,$pid);
 		echo '<script type="text/javascript">
-		//<![CDATA[
 		filterComments(\''.$id.'\', \''.$ccount.'\')
-		//]]></script></div><a href="#" onclick="Javascript:showHide(\'comment_form\'); return false;">>>Respond</a>
+		</script></div><a href="#" onclick="Javascript:showHide(\'comment_form\'); return false;">>>Respond</a>
 		<form method="post" action="index.php?page=comment&amp;id='.$id.'&amp;s=save" name="comment_form" id="comment_form" style="display:none">
 		<table><tr><td>
 		<textarea name="comment" rows="0" cols="0"></textarea>
@@ -280,9 +268,8 @@
 		<input type="hidden" name="conf" id="conf" value="0"/>
 		</td></tr></table></form>
 		<script type="text/javascript">
-		//<![CDATA[
 		document.getElementById(\'conf\').value=1;			
-		//]]></script>';
+		</script>';
 		if($got_permission === false)
 		{
 			$data = '';
