@@ -148,6 +148,7 @@
 		$previd = '';
 		$tcount = 0;
 		$images = '';
+        $script = '<script type="text/javascript">';
 		$query = "SELECT t1.id, t1.comment, t1.user, t1.posted_at, t1.score, t1.post_id, t1.spam, t2.image, t2.directory as dir, t2.tags, t2.rating, t2.score as p_score, t2.owner, t2.creation_date FROM $comment_table AS t1 JOIN $post_table AS t2 ON t2.id=t1.post_id ORDER BY t2.last_comment DESC,t1.id ASC LIMIT $page, $limit";
 		$result = $db->query($query) or die($db->error);
 		while($row = $result->fetch_assoc())
@@ -177,23 +178,18 @@
 				$rating = $row['rating'];
 				$user = $row['owner'];
 				$tags = mb_trim($row['tags']);
-				$images .= '<script type="text/javascript">
-				posts.tags['.$row['post_id'].'] = \''.str_replace('\\',"&#92;",str_replace("'","&#039;",$tags)).'\'
-				posts.rating['.$row['post_id'].'] = \''.$row['rating'].'\'
-				posts.score['.$row['post_id'].'] = \''.$row['p_score'].'\'		
-				</script>';
+				$script .= 
+					'posts.tags['.$row['post_id'].'] = \''.str_replace('\\',"&#92;",str_replace("'","&#039;",$tags)).'\';'.
+					'posts.rating['.$row['post_id'].'] = \''.$row['rating'].'\';'.
+					'posts.score['.$row['post_id'].'] = \''.$row['p_score'].'\';';
 				if($img != "")
-					$images .= '<script type="text/javascript">
-					posts.totalcount['.$lastpid.'] = \''.$ptcount.'\'
-					</script>';
+					$script .= 'posts.totalcount['.$lastpid.'] = \''.$ptcount.'\';';
 				$ptcount = 0;
 				$images .= '<div class="col1"><a href="index.php?page=post&amp;s=view&amp;id='.$row['post_id'].'"><img src="'.$thumbnail_url.'/'.$row['dir'].'/thumbnail_'.$row['image'].'" border="0" class="preview" title="'.$tags.'" alt="thumbnail"/></a></div><div class="col2">';
 				$img = $row['image'];
 			}
-			$images .= '<div class="comment" id="c'.$row['id'].'"><h4><a href="index.php?page=account_profile&amp;uname='.$row['user'].'">'.$row['user'].'</a></h4><h6 class="comment-header">Posted on '.$posted_at.'  ('; $row['spam'] == false ? $images .= '<a id="rc'.$row['id'].'"></a><a href="#" id="rcl'.$row['id'].'" onclick="Javascript:spam(\'comment\',\''.$row['id'].'\')">Flag for deletion</a>)</h6>' : $images .= "<b>Already flagged</b>)</h6>"; $images .= "<div id=\"cbody".$row['id']."\"><p>".$misc->swap_bbs_tags($misc->short_url($misc->linebreaks($row['comment'])))."</p></div></div>
-			<script type=\"text/javascript\">
-			posts.comments[".$row['id']."] = {'score':".$row['score'].", 'user':'".str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['user'])))."', 'post_id':'".$row['post_id']."'}
-			</script>";	
+			$images .= '<div class="comment" id="c'.$row['id'].'"><h4><a href="index.php?page=account_profile&amp;uname='.$row['user'].'">'.$row['user'].'</a></h4><h6 class="comment-header">Posted on '.$posted_at.'  ('; $row['spam'] == false ? $images .= '<a id="rc'.$row['id'].'"></a><a href="#" id="rcl'.$row['id'].'" onclick="Javascript:spam(\'comment\',\''.$row['id'].'\')">Flag for deletion</a>)</h6>' : $images .= "<b>Already flagged</b>)</h6>"; $images .= "<div id=\"cbody".$row['id']."\"><p>".$misc->swap_bbs_tags($misc->short_url($misc->linebreaks($row['comment'])))."</p></div></div>";
+			$script .= "posts.comments[".$row['id']."] = {'score':".$row['score'].", 'user':'".str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['user'])))."', 'post_id':'".$row['post_id']."'};";	
 			++$ccount;
 			++$ptcount;
 			++$tcount;
@@ -213,14 +209,14 @@
 		}
 		$images .=	'</ul></div></div></div>';
 		$result->free_result();
-		$images .= '<script type="text/javascript">
-		posts.totalcount['.$lastpid.'] = \''.$ptcount.'\'
-		</script>
-		<br /><a href="#" id="ci" onclick="showHideCommentListIgnored(); return false;">(0 hidden)</a><br /><br />
-		<script type="text/javascript">
-		filterCommentList(\''.$ccount.'\')
-		</script>';
+		$script .= 
+			'posts.totalcount['.$lastpid.'] = \''.$ptcount.'\'</script>
+			<br /><a href="#" id="ci" onclick="showHideCommentListIgnored(); return false;">(0 hidden)</a><br /><br />
+			<script type="text/javascript">
+			filterCommentList(\''.$ccount.'\');
+			</script>';
 		echo $images;
+        echo $script;
 		//Pagination. Nothing really needs to be changed at this point.
 		if($page == 0)
 			$start = 1;
