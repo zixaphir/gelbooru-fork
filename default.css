@@ -1126,16 +1126,6 @@ color: #000000;
 :root:not(.gal-fit-width):not(.gal-pdf) .gal-count {
   bottom: 44px !important;
 }
-:root.gal-fit-height:not(.gal-pdf):not(.gal-hide-thumbnails) .gal-buttons,
-:root.gal-fit-height:not(.gal-pdf):not(.gal-hide-thumbnails) .gal-name,
-:root.gal-fit-height:not(.gal-pdf):not(.gal-hide-thumbnails) .gal-count {
-  right: 178px !important;
-}
-:root.gal-hide-thumbnails:.gal-fit-height:not(.gal-pdf) .gal-buttons,
-:root.gal-hide-thumbnails:.gal-fit-height:not(.gal-pdf) .gal-name,
-:root.gal-hide-thumbnails:.gal-fit-height:not(.gal-pdf) .gal-count {
-  right: 28px !important;
-}
 .spinner {
   width: 30px;
   height: 30px;
