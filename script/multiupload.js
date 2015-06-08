@@ -492,7 +492,7 @@
       textContent: "My Tags: "
     });
     if (tags) {
-      ref1 = tags.trim().split(/(\%2520)|\+/);
+      ref1 = tags.trim().split(/(%2520)|\+/);
       for (k = 0, len1 = ref1.length; k < len1; k++) {
         tag = ref1[k];
         a = mkElement('a', {

@@ -117,7 +117,7 @@
 		</td></tr><tr><td>Source<br />
 		<input type="text" name="source" size="40" id="source" value="'.$post_data['source'].'" />
 		</td></tr><tr><td>Tags<br />
-		<textarea id="tags" name="tags" cols="40" rows="5">'.$tags.'</textarea>
+		<textarea id="post_tags" name="tags" cols="40" rows="5">'.$tags.'</textarea>
 		</td></tr><tr><td>My Tags<br />
 		<div id="my-tags">
 		<a href="index.php?page=account-options">Edit</a>
@@ -169,17 +169,18 @@
 		//<![CDATA[
 		function toggleTags(tag, id, lid)
 		{
-			temp = new Array(1);
-			temp[0] = tag;
-			tags = $(\'tags\').value.split(" ");
+			var input = $(\'post_tags\');
+			var temp = [tag];
+            
+			tags = input.value.split(" ");
 			if(tags.include(tag))
 			{
-				$(\'tags\').value=tags.without(tag).join(" ");
+				input.value=tags.without(tag).join(" ");
 				$(lid).innerHTML=tag+" ";
 			}
 			else
 			{
-				$(\'tags\').value=tags.concat(temp).join(" ");
+				input.value=tags.concat(temp).join(" ");
 				$(lid).innerHTML="<b>"+tag+"</b> ";
 			}
 			return false;
