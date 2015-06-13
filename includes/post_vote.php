@@ -10,17 +10,16 @@
 		if($user->check_log())
 		{
 			$user_id = $checked_user_id;
-			$query_part = " OR post_id='$id' AND user_id='$user_id'";
-		}
-		$query = "SELECT COUNT(*) FROM $post_vote_table WHERE post_id='$id' AND ip='$ip'".$query_part;
-		$result = $db->query($query);
-		$row = $result->fetch_assoc();
-
+			$query_part
 		if (!$anon_vote && $user_id == 0)
 		{
 			echo "Anonymous ratings are disabled.";
 			exit;
+		} = " OR post_id='$id' AND user_id='$user_id'";
 		}
+		$query = "SELECT COUNT(*) FROM $post_vote_table WHERE post_id='$id' AND ip='$ip'".$query_part;
+		$result = $db->query($query);
+		$row = $result->fetch_assoc();
 		if($row['COUNT(*)'] < 1)
 		{
 			$result->free_result();
