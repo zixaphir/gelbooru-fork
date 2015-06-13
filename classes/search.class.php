@@ -85,68 +85,12 @@
 						}
 						else
 						{
-							$tclass = new tag();
-							if(substr($current,0,1) == "-")
-							{
-								$current = substr($current,1,strlen($current)-1);
-								$wildcard = strpos($current,"*");
-								$alias = $tclass->alias($current);
-								if($alias !== false)
-								{
-									if($wildcard === false)
-									{
-										$g_tags .= ' -" '.$alias.' "';
-										$g_tags .= ' -" '.$current.' "';
-									}
-									else
-									{
-										$g_tags .= ' - '.$alias.' ';
-										$g_tags .= ' - '.$current.' ';
-									}
-								}
-								else
-								{
-									if($wildcard == false)
-										$g_tags .= ' -" '.$current.' "';
-									else
-										$g_tags .= ' - '.$current.' ';
-								}
-							}
-							else if(substr($current,0,1) == "~")
-							{
-								$current = substr($current,1,strlen($current)-1);
-								$alias = $tclass->alias($current);
-								if($alias !== false)
-								{
-									$g_tags .= " $alias";
-									$g_tags .= " $current";
-								}
-								else
-									$g_tags .= " $current";
-							}
-							else
-							{
-								$wildcard = strpos($current,"*");
-								$alias = $tclass->alias($current);
-								if($alias !== false)
-								{
-									if($wildcard == false)
-										$g_tags .= ' +" '.$alias.' "';
-									else
-										$g_tags .= ' + '.$alias.' ';
-								}
-								else
-								{
-									if($wildcard === false)
-										$g_tags .= ' +" '.$current.' "';
-									else
-										$g_tags .= ' + '.$current.' ';
-								}
-							}
+							$g_tags .= $this->parse_tag($current);
 						}
 					}
 				}
 			}
+			$blacklist = $this->blacklist_fragment();
 			if($g_tags != "")
 			{
 				if($g_parent != "")
@@ -156,9 +100,9 @@
 				$neg_search = !strpos($g_tags,"+");
 				if ($neg_search) {
 					$g_tags = preg_replace("/\-/", "", $g_tags);
-					$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE NOT (MATCH(tags) AGAINST('$g_tags' IN BOOLEAN MODE)>0.9) $g_parent $g_owner $g_score $g_rating $parent_patch ORDER BY id DESC";
+					$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE NOT (MATCH(tags) AGAINST('$g_tags' IN BOOLEAN MODE)>0.9) $g_parent $g_owner $g_score $g_rating $blacklist $parent_patch ORDER BY id DESC";
 				} else {
-					$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE (MATCH(tags) AGAINST('$g_tags' IN BOOLEAN MODE)>0.9) $g_parent $g_owner $g_score $g_rating $parent_patch ORDER BY id DESC";
+					$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE (MATCH(tags) AGAINST('$g_tags' IN BOOLEAN MODE)>0.9) $g_parent $g_owner $g_score $g_rating $blacklist $parent_patch ORDER BY id DESC";
 				}
 			}
 			else if($g_parent != "" || $g_owner != "" || $g_rating != "" || $g_score != "")
@@ -175,9 +119,11 @@
 					$g_rating = substr($g_rating,4,strlen($g_rating));
 				else if($g_score != "")
 					$g_score = str_replace('AND',"",$g_score);
+				else if($blacklist != "")
+					$blacklist = str_replace('AND',"",$blacklist);
 				if($g_parent == "")
 					$parent_patch = " AND parent='0'";
-				$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE $g_parent $g_owner $g_score $g_rating $parent_patch ORDER BY id DESC";
+				$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE $g_parent $g_owner $g_score $g_rating $blacklist $parent_patch ORDER BY id DESC";
 			}
 			else
 			{
@@ -191,6 +137,94 @@
 					$query = "SELECT * FROM $post_table ORDER BY id DESC";
 			}
 			return $query;
+		}
+
+		function parse_tag($tag)
+		{
+			$tclass = new tag();
+			if(substr($tag,0,1) == "-")
+			{
+				$tag = substr($tag,1,strlen($tag)-1);
+				$wildcard = strpos($tag,"*");
+				$alias = $tclass->alias($tag);
+				if($alias !== false)
+				{
+					if($wildcard === false)
+					{
+						return ' -" '.$alias.' "'.' -" '.$tag.' "';
+					}
+					else
+					{
+						return ' - '.$alias.' '.' - '.$tag.' ';
+					}
+				}
+				else
+				{
+					if($wildcard == false)
+						return ' -" '.$tag.' "';
+					else
+						return ' - '.$tag.' ';
+				}
+			}
+			else if(substr($tag,0,1) == "~")
+			{
+				$tag = substr($tag,1,strlen($tag)-1);
+				$alias = $tclass->alias($tag);
+				if($alias !== false)
+				{
+					return " $alias $tag";
+				}
+				else
+					return " $tag";
+			}
+			else
+			{
+				$wildcard = strpos($tag,"*");
+				$alias = $tclass->alias($tag);
+				if($alias !== false)
+				{
+					if($wildcard == false)
+						return ' +" '.$alias.' "';
+					else
+						return ' + '.$alias.' ';
+				}
+				else
+				{
+					if($wildcard === false)
+						return ' +" '.$tag.' "';
+					else
+						return ' + '.$tag.' ';
+				}
+			}
+		}
+
+		function blacklist_fragment()
+		{
+			global $db;
+			$g_owner = "";
+			$blacklist = "";
+			if(isset($_COOKIE['tag_blacklist']) && $_COOKIE['tag_blacklist'] != "")
+			{
+				$tag_blacklist = $db->real_escape_string(str_replace('&#92;',"\\",str_replace("&#039;","'",str_replace("%20"," ",$_COOKIE['tag_blacklist']))));
+				$tags = explode(' ', $tag_blacklist);
+				foreach ($tags as $tag)
+				{
+					$blacklist .= str_replace('+', '', $this->parse_tag($tag));
+				}
+			}
+
+			if(isset($_COOKIE['user_blacklist']) && $_COOKIE['user_blacklist'] != "")
+			{
+				$user_blacklist = $db->real_escape_string(str_replace('&#92;',"\\",str_replace("&#039;","'",str_replace("%20"," ",$_COOKIE['user_blacklist']))));
+
+				$users = explode(' ', $user_blacklist);
+				foreach ($users as $user)
+					$g_owner .= " AND owner != '$user'";
+			}
+
+			if ($blacklist == "")
+				return $g_owner;
+			return "AND NOT (MATCH(tags) AGAINST('$blacklist' IN BOOLEAN MODE)>0.9) $g_owner";
 		}
 
 		function search_tags_count($search)

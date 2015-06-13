@@ -1,7 +1,7 @@
 <?php
 	//number of images/page
 	$limit = 32;
-    $tags_limit = 20;
+	$tags_limit = 20;
 	//number of pages to display. number - 1. ex: for 5 value should be 4
 	$page_limit = 10;
 	require "includes/header.php";
@@ -75,6 +75,8 @@ var posts = {}; var pignored = {};
 			$result = $db->query($query) or die($db->error);
 			$numrows = $result->num_rows;
 			$result->free_result();
+			$no_cache = true;
+			/* XXX FIXME
 			if($tag_count > 1 || strtolower($new_tag_cache) == "all" || strpos(strtolower($new_tag_cache),"user:") !== false || strpos(strtolower($new_tag_cache),"rating:") !== false || substr($new_tag_cache,0,1) == "-" || strpos(strtolower($new_tag_cache),"*") !== false || strpos(strtolower($new_tag_cache),"parent:") !== false)
 				$no_cache = false;
 			else
@@ -83,6 +85,7 @@ var posts = {}; var pignored = {};
 					@mkdir("$main_cache_dir".""."search_cache/".$new_tag_cache."/");
 				$no_cache = true;
 			}
+			*/
 		}
 		else
 		{
@@ -115,7 +118,7 @@ var posts = {}; var pignored = {};
 		else
 			$page = 0;
 		if(!isset($_GET['tags']) || isset($_GET['tags']) && $_GET['tags'] == "all" || isset($_GET['tags']) && $_GET['tags'] == "")
-			$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE parent = '0' ORDER BY id DESC LIMIT $page, $limit";
+			$query = "SELECT id, image, directory, score, rating, tags, owner FROM $post_table WHERE parent = '0' " . $search->blacklist_fragment() . " ORDER BY id DESC LIMIT $page, $limit";
 		else
 		{
 			if($no_cache === true || $tag_count > 1 || strpos(strtolower($new_tag_cache),"user:") !== false || strpos(strtolower($new_tag_cache),"rating:") !== false || substr($new_tag_cache,0,1) == "-" || strpos(strtolower($new_tag_cache),"*") !== false || strpos(strtolower($new_tag_cache),"parent:") !== false)
@@ -149,7 +152,7 @@ var posts = {}; var pignored = {};
 				}
 				$images .= '<span class="thumb"><a id="p'.$row['id'].'" href="index.php?page=post&amp;s=view&amp;id='.$row['id'].'"><img src="'.$thumbnail_url.'/'.$row['directory'].'/thumbnail_'.$row['image'].'" alt="post" border="0" title="'.$row['tags'].' score:'.$row['score'].' rating:'. $row['rating'].'"/></a></span>';
 				$script .= 'posts['.$row['id'].'] = {\'tags\':\''.strtolower(str_replace('\\',"&#92;",str_replace("'","&#039;",$tags))).'\'.split(/ /g), \'rating\':\''.$row['rating'].'\', \'score\':'.$row['score'].', \'user\':\''.str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['owner']))).'\'};
-                ';
+				';
 			}
 			$result->free_result();
 			if(isset($_GET['tags']) && $_GET['tags'] != "" && $_GET['tags'] != "all")
@@ -180,13 +183,14 @@ Filter content you don\'t want to see with "-<i>tag</i>". For instance, -loli wo
 			$script .= 'filterPosts(posts);
 			</script>';
 			echo $images;
-            echo $script;
+			echo $script;
 
 			//Pagination function. This should work for the whole site... Maybe.
 			$misc = new misc();
 			print $misc->pagination($_GET['page'],$_GET['s'],$id,$limit,$page_limit,$numrows,$_GET['pid'],$_GET['tags']);
 
 		}
+		/* XXX FIXME
 		//Cache doesn't exist for search, make one.
 		if($no_cache === true)
 		{
@@ -204,6 +208,8 @@ Filter content you don\'t want to see with "-<i>tag</i>". For instance, -loli wo
 			}
 			echo $data;
 		}
+		*/
+		ob_end_flush();
 	}
 ?>
 </article><footer><a href="javascript:;" id="gal-toggle">Open Gallery</a><br /><br /><a href="index.php?page=post&amp;s=add">Add</a> | <a href="help/">Help</a></footer><br /><br />
