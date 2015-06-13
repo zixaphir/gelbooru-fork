@@ -157,7 +157,7 @@ function post_vote(pid, up_down)
 	{
 		if(HttpRequest.readyState==4)
 		{
-			updateScore("psc",parseInt(HttpRequest.responseText));
+			updateScore("psc",HttpRequest.responseText);
 		}
 	}
 	pid = encodeURI(pid);
