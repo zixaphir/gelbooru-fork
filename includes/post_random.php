@@ -23,7 +23,7 @@
 			$blacklist[] = "rating:questionable";
 		$blacklist = implode(" ",$blacklist);
 	}
-	//prevents idiots from getting stuck in an infinity loop
+	//prevents users from getting stuck in an infinity loop
 	if(mb_strpos($blacklist,'rating:explicit',0,'UTF-8') !== false && mb_strpos($blacklist,'rating:questionable',0,'UTF-8') !== false && mb_strpos($blacklist,'rating:safe',0,'UTF-8') !== false)
 		$override = true;
 	else
