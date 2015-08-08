@@ -52,7 +52,9 @@
     z = 0;
     return Object.defineProperty(g, "currentImageIndex", {
       set: function(x) {
-        return z = Math.min((+g.images.length) - 1, Math.max(x, 0));
+        var y;
+        y = +g.images.length - 1;
+        return z = x < 0 ? y : x > y ? 0 : x;
       },
       get: function() {
         return z;
@@ -178,8 +180,10 @@
       if (!this[key]) {
         this.keys.push(key);
       }
-      this[key] = data;
-      return this[key].key = key;
+      if (typeof data === 'object') {
+        data.key = key;
+      }
+      return this[key] = data;
     };
 
     SimpleDict.prototype.contains = function(obj) {

@@ -50,9 +50,18 @@ g =
 
 do -> # wrap in an anonymous function to closure z.
   z = 0
+  # Fucking CoffeeScript!!
+  # https://github.com/jashkenas/coffeescript/wiki/FAQ#unsupported-features
   Object.defineProperty g, "currentImageIndex",
-    set: (x) -> z = Math.min ((+g.images.length) - 1), Math.max x, 0
-    get:     -> z
+    set: (x) -> 
+      y = +g.images.length - 1
+      z = if x < 0
+        y
+      else if x > y 
+        0
+      else
+        x
+    get: -> z
 
 $ = (query, root) ->
   root = d.body unless root
@@ -127,8 +136,8 @@ class SimpleDict
   push: (key, data) ->
     key = "#{key}"
     @keys.push key unless @[key]
+    data.key = key if typeof data is 'object'
     @[key] = data
-    @[key].key = key
 
   contains: (obj) -> @indexOf(obj) isnt -1
 
@@ -163,11 +172,8 @@ class SimpleDict
     fn.call @, key for key in [@keys...]
     return
 
-  # Fucking CoffeeScript!!
-  # https://github.com/jashkenas/coffeescript/wiki/FAQ#unsupported-features
   Object.defineProperty SimpleDict::, 'length',
-    get: ->
-      return @keys.length
+    get: -> return @keys.length
 
 # media, unlike iframes, will download by merely existing as an object,
 # and will also be unloaded by garbage collection with no references attached.
