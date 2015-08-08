@@ -4,17 +4,19 @@
 	//ignore_user_abort(1);
 	$misc = new misc();
 	$userc = new user();
-	$ip = $db->real_escape_string($_SERVER['REMOTE_ADDR']);	
+	$ip = $db->real_escape_string($_SERVER['REMOTE_ADDR']);
 	$error = '';
 	$no_upload = false;
 	if($userc->banned_ip($ip))
 	{
 		print "Action failed: ".$row['reason'];
 		exit;
-	}	
+	}
 	if(!$userc->check_log())
 	{
-		if(!$anon_can_upload)
+        $query = "SELECT ip FROM $post_table WHERE ip='".$ip."' LIMIT 1";
+        $result = $db->query($query);
+		if(!$anon_can_upload && $result->num_rows == 0)
 			$no_upload = true;
 	}
 	else
@@ -96,7 +98,7 @@
 					$ttags = $tclass->filter_tags($tags,$current, $ttags);
 					$tclass->addindextag($current);
 					$cache = new cache();
-					
+
 					if(is_dir("$main_cache_dir".""."search_cache/".$current."/"))
 					{
 						$cache->destroy_page_cache("search_cache/".$current."/");
@@ -104,13 +106,13 @@
 					else
 					{
 						if(is_dir("$main_cache_dir".""."search_cache/".$misc->windows_filename_fix($current)."/"))
-							$cache->destroy_page_cache("search_cache/".$misc->windows_filename_fix($current)."/");		
+							$cache->destroy_page_cache("search_cache/".$misc->windows_filename_fix($current)."/");
 					}
 				}
 			}
 			asort($ttags);
 			$tags = implode(" ",$ttags);
-			$tags = mb_trim(str_replace("  ","",$tags));			
+			$tags = mb_trim(str_replace("  ","",$tags));
 			if(substr($tags,0,1) != " ")
 				$tags = " $tags";
 			if(substr($tags,-1,1) != " ")
@@ -152,8 +154,8 @@
 				$tags = $db->real_escape_string($row['tags']);
 				$date = date("Y-m-d H:i:s");
 				$query = "INSERT INTO $tag_history_table(id,tags,user_id,updated_at,ip) VALUES('".$row['id']."','$tags','$checked_user_id','$date','$ip')";
-				$db->query($query) or die($db->error);				
-				$cache = new cache();				
+				$db->query($query) or die($db->error);
+				$cache = new cache();
 				if($parent != '' && is_numeric($parent))
 				{
 					$parent_check = "SELECT COUNT(*) FROM $post_table WHERE id='$parent'";
@@ -165,9 +167,9 @@
 						$db->query($temp);
 						$temp = "UPDATE $post_table SET parent='$parent' WHERE id='".$row['id']."'";
 						$db->query($temp);
-						$cache->destroy("cache/".$parent."/post.cache");	
+						$cache->destroy("cache/".$parent."/post.cache");
 					}
-				}				
+				}
 				if(is_dir("$main_cache_dir".""."cache/".$row['id']))
 					$cache->destroy_page_cache("cache/".$row['id']);
 				$query = "SELECT id FROM $post_table WHERE id < ".$row['id']." ORDER BY id DESC LIMIT 1";
@@ -196,6 +198,7 @@
 	<li>Do not upload content that you do not have the rights or permission to post. It will be deleted and you may be banned.</li>
 	<li>Rate images appropriately. If you wouldn't look at it in front of your family, then it's probably not safe.</li>
 	<li>Stick to <b>TES</b>. Anything TES-related is allowed. Any in-game screenshot or work derived from in-game content is allowed. This extends to fanart of OC game-created characters.</li>
+    <li><b>Tag your shit</b>. Character name, character count (1girl, 2boys), hair color (brown_hair, black_hair), eye color, bbw, actions (sex, mastubation, posing), race, clothed, nude etc.
 	<li>If you chose to ignore these simple rules, you may forever be banned from all our services: past, present, and future.</li>
 	</ul>
 	</div>
