@@ -191,7 +191,7 @@
     };
 
     SimpleDict.prototype.indexOf = function(obj) {
-      var key;
+      var i, j, key, len1, ref;
       key = obj.key;
       if (key) {
         if (obj !== this[key]) {
@@ -199,7 +199,16 @@
         }
         return this.keys.indexOf(key);
       } else {
-        return this.keys.indexOf(obj);
+        i = 0;
+        ref = this.keys;
+        for (j = 0, len1 = ref.length; j < len1; j++) {
+          key = ref[j];
+          if (this[key] === obj) {
+            return i;
+          }
+          i++;
+        }
+        return -1;
       }
     };
 

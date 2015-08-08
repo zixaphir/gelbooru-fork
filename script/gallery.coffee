@@ -153,7 +153,11 @@ class SimpleDict
 
       @keys.indexOf key
     else
-      @keys.indexOf obj
+      i = 0
+      for key in @keys
+        return i if @[key] is obj
+        i++
+      return -1
 
   rm: (key) ->
     key = "#{key}"
