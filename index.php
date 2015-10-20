@@ -30,6 +30,7 @@
 			case 'comment':
 			case 'search':
 			case 'favorites':
+			case 'forum':
 			case 'alias':
 			case 'reset_password':
 				require "includes/" . $_GET["page"] . ".php";

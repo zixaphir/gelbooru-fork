@@ -551,12 +551,13 @@
       type: type
     };
     thumb = $.el('a', {
-      href: "javascript:;",
+      href: "index.php?page=post&s=view&id=" + p.id,
       className: 'gal-thumb',
       innerHTML: "<img src='" + image.thumb + "'>"
     });
     thumb.setAttribute('data-id', image.id);
-    $.on(thumb, 'click', function() {
+    $.on(thumb, 'click', function(e) {
+      e.preventDefault();
       g.currentImageIndex = g.images.indexOf(image);
       return setImage(image);
     });

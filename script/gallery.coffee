@@ -432,13 +432,14 @@ mkImage = (p) ->
   }
 
   thumb = $.el 'a',
-    href: "javascript:;"
+    href: "index.php?page=post&s=view&id=#{p.id}"
     className: 'gal-thumb'
     innerHTML: "<img src='#{image.thumb}'>"
 
   thumb.setAttribute 'data-id', image.id
 
-  $.on thumb, 'click', ->
+  $.on thumb, 'click', (e) ->
+    e.preventDefault()
     g.currentImageIndex = g.images.indexOf image
     setImage image
 
