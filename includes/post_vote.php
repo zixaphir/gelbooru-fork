@@ -5,7 +5,7 @@
 		$id = $db->real_escape_string($_GET['id']);
 		$type = $db->real_escape_string($_GET['type']);
 		$ip = $db->real_escape_string($_SERVER['REMOTE_ADDR']);
-		$user_id ="0";
+		$user_id = "0";
 		$query_part = "";
 		if($user->check_log())
 		{
@@ -25,12 +25,11 @@
 			$result->free_result();
 			if($type == "up") {
 				$query = "UPDATE $post_table SET score=score+1 WHERE id='$id'";
-				$db->query($query);
 			} else if($type == "down") {
 				$query = "UPDATE $post_table SET score=score-1 WHERE id='$id'";
-				$db->query($query);
 			} else
 				exit;
+			$db->query($query);
 			$query = "INSERT INTO $post_vote_table(rated, ip, post_id, user_id) VALUES('$type', '$ip', '$id', '$user_id')";
 			$db->query($query);
 			$cache = new cache();
