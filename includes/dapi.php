@@ -41,7 +41,7 @@
 		}
 
 		function createPostObject($row) {
-			global $site_url, $image_folder, $thumbnail_url, $post;
+			global $site_url, $image_folder, $thumbnail_url, $post, $misc;
 			$file_url = $site_url.'/'.$image_folder.'/'.$row['directory'].'/'.$row['image'];
 
 			$parent_id = $row['parent'];
@@ -49,27 +49,27 @@
 				$parent_id = '';
 
 			return array('post' => array (
-				'width'		  => $row['width'],
-				'height'		 => $row['height'],
+				'width'          => $row['width'],
+				'height'         => $row['height'],
 				'sample_width'   => $row['width'],
 				'sample_height'  => $row['height'],
 				'preview_width'  => '150px',
 				'preview_height' => '150px',
-				'score'		  => $row['score'],
-				'file_url'	   => $file_url,
-				'sample_url'	 => $file_url,
-				'parent_id'	  => $parent_id,
-				'preview_url'	=> $thumbnail_url.$misc->getThumb($row['image'], $row['directory']);
-				'rating'		 => strtolower(substr($row['rating'], 0, 1)),
-				'tags'		   => fixTags($row['tags']),
-				'id'			 => $row['id'],
-				// 'change'		 => 'UNIMPLEMENTED',
-				'md5'			=> $row['hash'],
-				'creator_id'	 => getUserID($row['owner']),
-				'created_at'	 => $row['creation_date'],
-				// 'status'		 => 'UNIMPLEMENTED',
-				'source'		 => $row['source'],
-				'has_notes'	  => $post->has_notes($row['id']),
+				'score'          => $row['score'],
+				'file_url'       => $file_url,
+				'sample_url'     => $file_url,
+				'parent_id'      => $parent_id,
+				'preview_url'    => $thumbnail_url.$misc->getThumb($row['image'], $row['directory']),
+				'rating'         => strtolower(substr($row['rating'], 0, 1)),
+				'tags'           => fixTags($row['tags']),
+				'id'             => $row['id'],
+				// 'change'      => 'UNIMPLEMENTED',
+				'md5'            => $row['hash'],
+				'creator_id'     => getUserID($row['owner']),
+				'created_at'     => $row['creation_date'],
+				// 'status'      => 'UNIMPLEMENTED',
+				'source'         => $row['source'],
+				'has_notes'      => $post->has_notes($row['id']),
 				'has_comments'   => !empty($row['last_comment']),
 				'has_children'   => $post->has_children($row['id'])
 			));
@@ -77,7 +77,7 @@
 
 		function createPostXML($row)
 		{
-			global $site_url, $image_folder, $thumbnail_url, $post;
+			global $site_url, $image_folder, $thumbnail_url, $post, $misc;
 			$parent_id = $row['parent'];
 			if ($parent_id == 0)
 				$parent_id = '';
