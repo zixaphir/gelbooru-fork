@@ -8,6 +8,7 @@
 		exit;
 	}
 
+	$image = new image();
 	$misc = new misc();
 	$dir  = "./images/";
 	$dirs = array();
@@ -46,7 +47,6 @@
 			$thumb = "./thumbnails".$misc->getThumb($item, $current);
 			if ($item != '.' && $item != '..' && !is_dir($dir.$item) && is_valid_extension($item) && !file_exists($thumb))
 			{
-				$image = new image();
 				$image->thumbnail($current."/".$item);
 				print $thumb."<br>";
 			}
