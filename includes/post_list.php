@@ -7,6 +7,7 @@
 	require "includes/header.php";
 	$cache = new cache();
 	$domain = $cache->select_domain();
+	$misc = new misc();
 ?>
 <script type="text/javascript">
 var posts = {}; var pignored = {};
@@ -60,7 +61,6 @@ var posts = {}; var pignored = {};
 		$tags = explode(" ",$tags);
 		$tag_count = count($tags);
 		$new_tag_cache = urldecode($tags[0]);
-		$misc = new misc();
 		if(strpos(strtolower($new_tag_cache),"parent:") === false && strpos(strtolower($new_tag_cache),"user:") === false && strpos(strtolower($new_tag_cache),"rating:") === false && strpos($new_tag_cache,"*") === false)
 			$new_tag_cache = $misc->windows_filename_fix($new_tag_cache);
 		if(isset($_GET['pid']) && is_numeric($_GET['pid']) && $_GET['pid'] > 0)
@@ -150,7 +150,7 @@ var posts = {}; var pignored = {};
 						}
 					}
 				}
-				$images .= '<span class="thumb"><a id="p'.$row['id'].'" href="index.php?page=post&amp;s=view&amp;id='.$row['id'].'"><img src="'.$thumbnail_url.'/'.$row['directory'].'/thumbnail_'.$row['image'].'" alt="post" border="0" title="'.$row['tags'].' score:'.$row['score'].' rating:'. $row['rating'].'"/></a></span>';
+				$images .= '<span class="thumb"><a id="p'.$row['id'].'" href="index.php?page=post&amp;s=view&amp;id='.$row['id'].'"><img src="'.$thumbnail_url.$misc->getThumb($row['image'], $row['directory']).'" alt="post" border="0" title="'.$row['tags'].' score:'.$row['score'].' rating:'. $row['rating'].'"/></a></span>';
 				$script .= 'posts['.$row['id'].'] = {\'tags\':\''.strtolower(str_replace('\\',"&#92;",str_replace("'","&#039;",$tags))).'\'.split(/ /g), \'rating\':\''.$row['rating'].'\', \'score\':'.$row['score'].', \'user\':\''.str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['owner']))).'\'};
 				';
 			}
@@ -186,7 +186,6 @@ Filter content you don\'t want to see with "-<i>tag</i>". For instance, -loli wo
 			echo $script;
 
 			//Pagination function. This should work for the whole site... Maybe.
-			$misc = new misc();
 			print $misc->pagination($_GET['page'],$_GET['s'],$id,$limit,$page_limit,$numrows,$_GET['pid'],$_GET['tags']);
 
 		}

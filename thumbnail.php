@@ -3,10 +3,11 @@
 	$id = $db->real_escape_string(basename($_SERVER["PATH_INFO"]));
 	if(!is_numeric($id))
 		die;
+	$misc = new misc;
 	$query = "SELECT image, directory, ext FROM $post_table WHERE id='$id' LIMIT 1";
 	$result = $db->query($query);
 	$row = $result->fetch_assoc();
-	$f = fopen("./thumbnails/".$row['directory']."/thumbnail_".$row['image'],"rb") or die;
+	$f = fopen("./thumbnails".$misc->getThumb($row['image'], $row['dir']),"rb") or die;
 	$data = '';
 	header("Cache-Control: store, cache");
 	header("Pragma: cache");

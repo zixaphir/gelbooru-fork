@@ -274,5 +274,14 @@
 			}
 			return $output;
 		}
+		
+		function getThumb($image, $dir) {
+			$thumb = explode('.', $image);
+			array_pop($thumb);
+			$thumb = implode('.', $thumb).".jpg";
+			$thumb = '/'.$dir."/thumbnail_".$thumb;
+			return $thumb;
+		}
+		
 	}
 ?>

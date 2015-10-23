@@ -21,12 +21,28 @@
 		{
 			try {
 				$imagick = new Imagick();
-				$imagick->readImage($image);
+				$fullpath = "./".$this->thumbnail_path."/".$timage[0]."/".$thumbnail_name;
+
+				if ($ext == "gif")
+					$imagick->readImage($image.'[0]');
+				else
+					$imagick->readImage($image);
+
 				$info = $imagick->getImageGeometry();
 				$this->info[0] = $info['width'];
 				$this->info[1] = $info['height'];
 				$imagick->thumbnailImage($this->dimension, $this->dimension, true);
-				$imagick->writeImage("./".$this->thumbnail_path."/".$timage[0]."/".$thumbnail_name);
+
+				if ($ext == "png" || $ext == "gif") {
+					$white = new Imagick();
+					$white->newImage($this->dimension, $this->dimension, "white");
+					$white->compositeimage($image, Imagick::COMPOSITE_OVER, 0, 0);
+					$white->writeImage($fullpath);
+					$white->clear();
+				} else {
+					$imagick->writeImage($fullpath);
+				}
+
 				$imagick->clear();
 			}
 			catch(Exception $e) {
@@ -67,7 +83,7 @@
 					echo "Invalid Filetype";
 					return false;
 			}
-			
+
 			$this->info = $imginfo;
 
 			if(!$img) {
@@ -75,7 +91,7 @@
 				return false;
 			}
 
-			$max    = ($imginfo[0] > $imginfo[1]) ? $imginfo[0] : $imginfo[1];
+			$max	= ($imginfo[0] > $imginfo[1]) ? $imginfo[0] : $imginfo[1];
 			$scale  = ($max < $this->dimension) ? 1 : $this->dimension / $max;
 			$width  = $imginfo[0] * $scale;
 			$height = $imginfo[1] * $scale;
@@ -88,13 +104,9 @@
 				case '.jpg':
 				case '.jpeg':
 				case '.webm':
-					imagejpeg($thumbnail,"./".$this->thumbnail_path."/".$timage[0]."/".$thumbnail_name,95);
-					break;
-				case '.gif':
-					imagegif($thumbnail,"./".$this->thumbnail_path."/".$timage[0]."/".$thumbnail_name);
-					break;
 				case '.png':
-					imagepng($thumbnail,"./".$this->thumbnail_path."/".$timage[0]."/".$thumbnail_name);
+				case '.gif':
+					imagejpeg($thumbnail,"./".$this->thumbnail_path."/".$timage[0]."/".$thumbnail_name,95);
 					break;
 				default:
 					imagedestroy($img);
@@ -113,12 +125,10 @@
 		{
 			$timage = explode("/",$image);
 			$image = $timage[1];
-			$ext = explode(".",$image);
-			$count = count($ext);
-			$ext = $ext[$count-1];
-			$ext = ".".$ext;
+			$filename = explode(".",$image);
+			$ext = ".".array_pop($filename);
 
-			$thumbnail_name = "thumbnail_".$image;
+			$thumbnail_name = "thumbnail_".implode('', $filename).".jpg";
 			$image = "./".$this->image_path."/".$timage[0]."/".$image;
 
 			$imginfo = getimagesize($image);
@@ -303,7 +313,7 @@
 				unlink("./tmp/".$fname.$ext);
 				return false;
 			}
-			if ($ext === ".webm") 
+			if ($ext === ".webm")
 			{
 				$vid = new webm("./tmp/".$fname.$ext);
 				if ($vid->valid_webm()) {
@@ -443,7 +453,10 @@
 				$query = "UPDATE $post_table SET parent='' WHERE parent='$id'";
 				$db->query($query);
 				unlink("../images/".$dir."/".$image);
-				unlink("../thumbnails/".$dir."/thumbnail_".$image);
+				$thumb = explode($image);
+				array_pop($thumb);
+				$thumb = implode($thumb).".jpg";
+				unlink("../thumbnails/".$dir."/thumbnail_".$thumb);
 				$this->folder_index_decrement($dir);
 				$itag = new tag();
 				$tags = explode(" ",$tags);

@@ -1,4 +1,5 @@
 <?php
+	$misc = new misc();
 	if(isset($_GET['s']) && $_GET['s'] == "view")
 	{
 		//List how many images per page that should be here.
@@ -36,7 +37,7 @@
 			$tags = $row['tags'];
 			$tags = substr($tags,1,strlen($tags));
 			$tags = substr($tags,0,strlen($tags)-1);
-			$images .= '<span class="thumb" style="margin: 10px;"><a href="index.php?page=post&amp;s=view&amp;id='.$row['id'].'" id="p'.$row['id'].'" onclick="document.location=\'index.php?page=post&amp;s=view&amp;id='.$row['id'].'\'; return false;"><img src="'.$domain.'/thumbnails/'.$row['dir'].'/thumbnail_'.$row['image'].'" title="'.$tags.'" border="0" alt="image_thumb"/></a>'; (isset($_COOKIE['user_id']) && $_COOKIE['user_id'] == $id) ? $images .= '<br /><a href="#" onclick="document.location=\'index.php?page=favorites&s=delete&id='.$row['id'].'&pid='.$page.'\'; return false;"><b>Remove</b></a></span>' : $images .= '</span>';
+			$images .= '<span class="thumb" style="margin: 10px;"><a href="index.php?page=post&amp;s=view&amp;id='.$row['id'].'" id="p'.$row['id'].'" onclick="document.location=\'index.php?page=post&amp;s=view&amp;id='.$row['id'].'\'; return false;"><img src="'.$thumbnail_url.$misc->getThumb($row['image'], $row['directory']).'" title="'.$tags.'" border="0" alt="image_thumb"/></a>'; (isset($_COOKIE['user_id']) && $_COOKIE['user_id'] == $id) ? $images .= '<br /><a href="#" onclick="document.location=\'index.php?page=favorites&s=delete&id='.$row['id'].'&pid='.$page.'\'; return false;"><b>Remove</b></a></span>' : $images .= '</span>';
 			$images .= '<script type="text/javascript">
 			posts['.$row['id'].'] = {\'tags\':\''.str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$tags))).'\'.split(/ /g), \'rating\':\''.$row['rating'].'\', \'score\':'.$row['score'].', \'user\':\''.str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['owner']))).'\'}
 			</script>';
@@ -50,7 +51,6 @@
 		ob_flush();
 		flush();
 		$result->free_result();
-		$misc = new misc();
 		print $misc->pagination($_GET['page'],$_GET['s'],$id,$limit,$page_limit,$numrows,$page);
 	}
 	else if(isset($_GET['s']) && $_GET['s'] == "list")
@@ -82,7 +82,6 @@
 			echo '<tr class="'.$rowswitch.'"><td><a href="index.php?page=favorites&amp;s=view&amp;id='.$row['user_id'].'">'.$row['user'].'</a></td><td>'.$row['fcount'].'</td></tr>';
 		$result->free_result();
 		echo "</table></div><div id='paginator'>";
-		$misc = new misc();
 		print $misc->pagination($_GET['page'],$_GET['s'],$eh,$limit,$page_limit,$numrows,$page);
 	}
 	else if(isset($_GET['s']) && $_GET['s'] == "delete" && isset($_GET['id']) && is_numeric($_GET['id']))

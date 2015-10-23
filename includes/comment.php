@@ -2,6 +2,7 @@
 	$userc = new user();
 	$cache = new cache();
 	$comment = new comment();
+	$misc = new misc();
 	$ip = $db->real_escape_string($_SERVER['REMOTE_ADDR']);
 	if($userc->check_log())
 	{
@@ -91,7 +92,6 @@
 			$query = "SELECT post_id, comment, user, posted_at, score FROM $comment_table WHERE id='$cid'";
 			$result = $db->query($query);
 			$row = $result->fetch_assoc();
-			$misc = new misc();
 			echo '<a href="index.php?page=post&s=view&id='.$row['post_id'].'">'.$row['post_id'].'</a> '.$misc->swap_bbs_tags($misc->linebreaks($misc->short_url(htmlentities($row['comment'],ENT_QUOTES,"UTF-8")))).' '.$row['user'].' '.$row['posted_at'].' '.$row['score'];
 			$result->free_result();
 		}
@@ -107,7 +107,6 @@
 		header("Pragma: cache");
 		$cache = new cache();
 		$domain = $cache->select_domain();
-		$misc = new misc();
 		require "includes/header.php";
 		?>
 		<div id="comment-list2">
@@ -148,7 +147,7 @@
 		$previd = '';
 		$tcount = 0;
 		$images = '';
-        $script = '<script type="text/javascript">';
+		$script = '<script type="text/javascript">';
 		$query = "SELECT t1.id, t1.comment, t1.user, t1.posted_at, t1.score, t1.post_id, t1.spam, t2.image, t2.directory as dir, t2.tags, t2.rating, t2.score as p_score, t2.owner, t2.creation_date FROM $comment_table AS t1 JOIN $post_table AS t2 ON t2.id=t1.post_id ORDER BY t2.last_comment DESC,t1.id ASC LIMIT $page, $limit";
 		$result = $db->query($query) or die($db->error);
 		while($row = $result->fetch_assoc())
@@ -185,7 +184,7 @@
 				if($img != "")
 					$script .= 'posts.totalcount['.$lastpid.'] = \''.$ptcount.'\';';
 				$ptcount = 0;
-				$images .= '<div class="col1"><a href="index.php?page=post&amp;s=view&amp;id='.$row['post_id'].'"><img src="'.$thumbnail_url.'/'.$row['dir'].'/thumbnail_'.$row['image'].'" border="0" class="preview" title="'.$tags.'" alt="thumbnail"/></a></div><div class="col2">';
+				$images .= '<div class="col1"><a href="index.php?page=post&amp;s=view&amp;id='.$row['post_id'].'"><img src="'.$thumbnail_url.$misc->getThumb($row['image'], $row['dir']).'" border="0" class="preview" title="'.$tags.'" alt="thumbnail"/></a></div><div class="col2">';
 				$img = $row['image'];
 			}
 			$images .= '<div class="comment" id="c'.$row['id'].'"><h4><a href="index.php?page=account_profile&amp;uname='.$row['user'].'">'.$row['user'].'</a></h4><h6 class="comment-header">Posted on '.$posted_at.'  ('; $row['spam'] == false ? $images .= '<a id="rc'.$row['id'].'"></a><a href="#" id="rcl'.$row['id'].'" onclick="Javascript:spam(\'comment\',\''.$row['id'].'\')">Flag for deletion</a>)</h6>' : $images .= "<b>Already flagged</b>)</h6>"; $images .= "<div id=\"cbody".$row['id']."\"><p>".$misc->swap_bbs_tags($misc->short_url($misc->linebreaks($row['comment'])))."</p></div></div>";
@@ -216,7 +215,7 @@
 			filterCommentList(\''.$ccount.'\');
 			</script>';
 		echo $images;
-        echo $script;
+		echo $script;
 		//Pagination. Nothing really needs to be changed at this point.
 		if($page == 0)
 			$start = 1;

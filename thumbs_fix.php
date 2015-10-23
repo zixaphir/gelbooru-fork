@@ -8,46 +8,52 @@
 		exit;
 	}
 
-	$dir = "./images/";
+	$misc = new misc();
+	$dir  = "./images/";
 	$dirs = array();
-	$image = new image();
+
 	function is_valid_extension($img)
 	{
-		$ext = substr($img,-3,10);
-		if($ext == "jpg")
-			return true;
-		else if($ext == "gif")
-			return true;
-		else if($ext == "png")
-			return true;
-		else if($ext == "bmp")
-			return true;
-		else
-			return false;
+		$ext = explode('.', $img);
+		$ext = array_pop($ext);
+		switch ($ext)
+		{
+			case 'jpg':
+			case 'jpeg':
+			case 'webm':
+			case 'png':
+			case 'gif':
+				return true;
+			default:
+				return false;
+		}
 	}
+
 	$dir_contents = scandir($dir);
-	foreach ($dir_contents as $item) 
+	foreach ($dir_contents as $item)
 	{
-		if (is_dir($dir.$item) && $item != '.' && $item != '..') 
+		if (is_dir($dir.$item) && $item != '.' && $item != '..')
 		{
 			$dirs[] = $item;
 		}
 	}
+
 	foreach($dirs as $current)
 	{
 		$dir_contents = scandir("./images/".$current."/");
-		foreach ($dir_contents as $item) 
+		if(!is_dir("./thumbnails/".$current."/"))
+			$image->makethumbnailfolder($current);
+
+		foreach ($dir_contents as $item)
 		{
-			if ($item != '.' && $item != '..' && !is_dir($dir.$item) && is_valid_extension($item) && !file_exists("./thumbnails/$current/thumbnail_$item")) 
+			$thumb = "./thumbnails".$misc->getThumb($item, $current);
+			if ($item != '.' && $item != '..' && !is_dir($dir.$item) && is_valid_extension($item) && !file_exists($thumb))
 			{
-				$image = new image();			
-				if(!is_dir("./thumbnails/".$current."/"))
-					$image->makethumbnailfolder($current);
+				$image = new image();
 				$image->thumbnail($current."/".$item);
-				print "./thumbnails/".$current."/thumbnail_".$item."<br>
-";
+				print $thumb."<br>";
 			}
-		
+
 		}
 	}
 ?>
