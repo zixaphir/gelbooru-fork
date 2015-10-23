@@ -30,16 +30,13 @@
 	}
 
 	$dir_contents = scandir($dir);
-	foreach ($dir_contents as $item)
+	foreach ($dir_contents as $current)
 	{
-		if (is_dir($dir.$item) && $item != '.' && $item != '..')
+		if (!is_dir($dir.$current) || $current == '.' || $current == '..')
 		{
-			$dirs[] = $item;
+			continue;
 		}
-	}
 
-	foreach($dirs as $current)
-	{
 		$dir_contents = scandir("./images/".$current."/");
 		if(!is_dir("./thumbnails/".$current."/"))
 			$image->makethumbnailfolder($current);
