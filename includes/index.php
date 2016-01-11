@@ -38,7 +38,6 @@
 		$digit=substr($row['pcount'],$i,1);
 		print '<img src="./counter/'.$digit.'.png" border="0" alt="'.$digit.'"/>'; 						
 	}
-	echo '<br /><br /><small>Total number of visitors so far:'.number_format($row['count']).'</small>
-	<br /><br /></div></div><br /><br /><br /><br />
+	echo '<p><small>Total number of visitors so far:'.number_format($row['count']).'</small></p></div></div>
 	</body></html>';
 ?>

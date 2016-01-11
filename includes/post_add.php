@@ -198,7 +198,7 @@
 	<li>Do not upload content that you do not have the rights or permission to post. It will be deleted and you may be banned.</li>
 	<li>Rate images appropriately. If you wouldn't look at it in front of your family, then it's probably not safe.</li>
 	<li>Stick to <b>TES</b>. Anything TES-related is allowed. Any in-game screenshot or work derived from in-game content is allowed. This extends to fanart of OC game-created characters.</li>
-    <li><b>Tag your shit</b>. Character name, character count (1girl, 2boys), hair color (brown_hair, black_hair), eye color, bbw, actions (sex, mastubation, posing), race, clothed, nude etc.
+    <li><b>Tag your shit</b>. Character name, character count (1girl, 2boys), hair color (brown_hair, black_hair), eye color, bbw, actions (sex, mastubation, posing), race, clothed, nude etc.</li>
 	<li>If you chose to ignore these simple rules, you may forever be banned from all our services: past, present, and future.</li>
 	</ul>
 	</div>

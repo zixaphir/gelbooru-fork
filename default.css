@@ -561,7 +561,7 @@ div#post-view div#related0 img {
 }
 
 div#post-view div#note-container {
-  position: absolute;
+  position: relative;
 }
 
 div#post-view div.note-box {
