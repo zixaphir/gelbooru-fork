@@ -237,7 +237,7 @@
 	<br>
 	</table>
 	</form>
-	<script language="javascript" type="text/javascript" src="/script/multiupload.js"></script>
+	<script language="javascript" type="text/javascript" src="./script/multiupload.js"></script>
 	<script type="text/javascript">
 	function toggleTags(tag, id, lid)
 	{

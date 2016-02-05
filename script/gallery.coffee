@@ -1,11 +1,11 @@
 ###
-# 
+#
 # $ object largely based on 4chan X's $, which is largely based on jQuery.
 # non-chainable.
-# 
+#
 # Copyright (c) 2009-2011 James Campos <james.r.campos@gmail.com>
 # Copyright (c) 2012-2014 Nicolas Stepien <stepien.nicolas@gmail.com>
-# 
+#
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation
 # files (the "Software"), to deal in the Software without
@@ -14,7 +14,7 @@
 # copies of the Software, and to permit persons to whom the
 # Software is furnished to do so, subject to the following
 # conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -25,7 +25,7 @@
 # WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
-# 
+#
 ###
 
 "use strict"
@@ -48,16 +48,18 @@ g =
 # images
 # currentImageIndex
 
+vidMeta = null
+
 do -> # wrap in an anonymous function to closure z.
   z = 0
   # Fucking CoffeeScript!!
   # https://github.com/jashkenas/coffeescript/wiki/FAQ#unsupported-features
   Object.defineProperty g, "currentImageIndex",
-    set: (x) -> 
+    set: (x) ->
       y = +g.images.length - 1
       z = if x < 0
         y
-      else if x > y 
+      else if x > y
         0
       else
         x
@@ -84,13 +86,18 @@ $.asap = (test, fn) ->
   else
     setTimeout $.asap, 25, test, callback
 
+$.throw = (error) ->
+  console.log "Something went wrong. Please file a bug report
+    @ https://github.com/zixaphir/gelbooru-fork including the following:"
+  console.log error.message
+  console.log error.stack
+
 $.on = (target, events, fun, once) ->
-  fn = -> try 
+  fn = -> try
     # Events are difficult to debug enough without appropriate error trappings...
     fun.apply this, arguments
   catch err
-    console.log err.message
-    console.log err.stack
+    $.throw err
 
   func = if once then ->
     $.off target, events, func
@@ -122,6 +129,17 @@ $.html = (html) ->
     innerHTML: html
   $.nodes [(el.children)...]
 
+$.escape = do ->
+  encode =
+    '&': '&amp;'
+    '<': '&lt;'
+    '"': '&quot;'
+    '>': '&gt;'
+    "'": '&#039;'
+    '\/': "&#x2F;"
+  return (text) ->
+    return text.replace(/[&<>"']/g, (t) -> encode[t])
+
 $.add = (root, nodes) ->
   root.appendChild $.nodes nodes
   return root
@@ -136,7 +154,7 @@ class SimpleDict
   push: (key, data) ->
     key = "#{key}"
     @keys.push key unless @[key]
-    data.key = key if typeof data is 'object'
+    data.key = key if typeof data is 'object' # I'm a jerk and decided data can be numbers & strings
     @[key] = data
 
   contains: (obj) -> @indexOf(obj) isnt -1
@@ -144,20 +162,19 @@ class SimpleDict
   indexOf: (obj) ->
     {key} = obj
     if key
-      # Though unlikely, the SimpleDict may contain a different item with the
-      # same ID. In that case, it would not contain *this* object, so return -1.
-      # also this allows us to take a small short cut, since object lookup would
-      # also tell us if this object is contained at all, cutting out the
-      # slightly more expensive indexOf lookup.
+      # Though unlikely, the SimpleDict may contain a different item with the same ID. In that case,
+      # it would not contain *this* object, so return -1. Also this allows us to take a small short
+      # cut, since object lookup would also tell us if this object is contained at all, cutting out
+      # the slightly more expensive indexOf lookup.
       return -1 unless obj is @[key]
 
-      @keys.indexOf key
-    else
-      i = 0
-      for key in @keys
-        return i if @[key] is obj
-        i++
-      return -1
+      return @keys.indexOf key
+
+    i = 0
+    for key in @keys
+      return i if @[key] is obj
+      i++
+    return -1
 
   rm: (key) ->
     key = "#{key}"
@@ -178,7 +195,7 @@ class SimpleDict
 
   Object.defineProperty SimpleDict::, 'length',
     get: -> return @keys.length
-
+###
 # media, unlike iframes, will download by merely existing as an object,
 # and will also be unloaded by garbage collection with no references attached.
 preload = (image) ->
@@ -186,6 +203,27 @@ preload = (image) ->
   i = g.currentImageIndex
   len = Math.min galLength, i + PRELOAD + 1
   $.el 'img', src: g.images[g.images.keys[i]].url while ++i < len
+###
+
+preloads = {}
+preloaded = {}
+
+preload = () ->
+  galLength = g.images.length
+  i = g.currentImageIndex
+  len = Math.min galLength, i + PRELOAD + 1
+  while ++i < len
+    image = g.images[g.images.keys[i]]
+    return if preloads[image.id] or preloaded[image.id] # already preloaded or preloading
+    img = preloads[image.id] = mkImgEl image # Build a usable image object, with metadata and el
+    $.asap(
+      (->
+        return img.img.complete or img.img.readyState > 3 # We want a completely loaded media
+      ),
+      -> # Cache status & cleanup
+        preloaded[image.id] = true
+        delete preloads[image.id]
+    )
 
 loadGallery = -> try
   g.gallery = gal = $.el 'div',
@@ -196,10 +234,11 @@ loadGallery = -> try
         <div>
           <div class="gal-info">
             INFO
+            <span id=\"gal-vid\"></span>
             <div class="gal-ex-info">
             </div>
           </div>
-          <div class="gal-close">✖</div>
+          <div class="gal-close">&#x274c</div>
           <a class="current"></a>
         </div>
       </div>
@@ -224,8 +263,7 @@ loadGallery = -> try
   d.body.appendChild gal
 
 catch err
-  console.log err.message
-  console.log err.stack
+  $.throw err
 
 cb =
   next: ->
@@ -257,7 +295,9 @@ cb =
     thumbs = g.nodes.thumbs
     thumbs.scrollTop = highlight.offsetTop + highlight.offsetHeight/2 - thumbs.clientHeight/2
 
-  toggleGallery: -> cb[if g.gallery.style.display is 'block' then 'hideGallery' else 'showGallery']()
+  toggleGallery: ->
+    cb[if g.gallery.style.display is 'block' then 'hideGallery' else 'showGallery']()
+
   keybinds: (e) ->
     return unless key = e.keyCode
 
@@ -274,14 +314,46 @@ cb =
     e.stopPropagation()
     e.preventDefault()
     fn()
+
   pause: ->
-    current = $ '.gal-image a', g.gallery
-    el = current.firstElementChild if current
+    el = $ '.gal-image video', g.gallery
     el.pause() if el and el.pause
 
-fer = (arr, fn) ->
-  fn item for item in arr
-  return
+  cleanVid: ->
+    el = $ '.gal-image video', g.gallery
+    try
+      if el
+        el.pause()
+        el.src = ''
+    catch err
+      $.throw err
+
+mkImgEl = (image) ->
+  switch image.type
+    when "jpg", "jpeg", "gif", "png"
+      img = $.el 'img', {
+        src: image.url
+        alt: image.tags
+      }
+      ready = -> return img.complete
+    else
+      img = $.el 'video',
+        src: image.url
+        poster: image.thumb
+        autoplay: true
+        loop: true
+        width: image.width
+        height: image.height
+        controls: true
+
+      img.load()
+      ready = -> return img.readyState > 2
+      image.video = true
+
+  return {
+    img: img,
+    ready: ready,
+  }
 
 setImage = (image) -> try
   gal = g.gallery
@@ -295,53 +367,43 @@ setImage = (image) -> try
     download:  image.filename
     className: 'current'
 
-  switch image.type
-    when "jpg", "jpeg", "gif", "png"
-      img = $.el 'img',
-        src: image.url
-        alt: image.tags
-      ready = -> img.complete
-    else
-      img = $.el 'video',
-        src:      image.url
-        poster:   image.thumb
-        autoplay: true
-        loop:     true
-      ready = -> img.readyState > 2
+  {ready, img} = preloads[image.url] or mkImgEl image
 
-  if ready()
-    $.add a, img
+  placeHolder = $.el 'div', className: 'spinner'
+  $.add a, placeHolder
+  $.asap ready, ->
+    return if i isnt g.currentImageIndex # user may have navigated to another image.
+    $.replace placeHolder, img
     preload()
-  else
-    placeHolder = $.el 'div', className: 'spinner'
-    $.add a, placeHolder
-    $.asap ready, ->
-      return if i isnt g.currentImageIndex # user may have navigated to another image.
-      $.replace placeHolder, img
-      preload()
+
+  if vidMeta
+    clearInterval vidMeta
+    vidMeta = false
+    $('#gal-vid').textContent = ''
+
+  handleVid img if image.video
 
   $.replace el, a
-  
+
   a.focus()
 
   info = $ '.gal-ex-info', gal
 
-  info.textContent = """
-    ID: #{image.id}
-    Score: #{image.score or 0}
-    Posted: #{image.age}
-    Width: #{image.width}
-    Height: #{image.height}
-    Type: #{image.type.toUpperCase()}
+  meta = $.escape """
+    ID: ${image.id}
+    Score: ${image.score || 0}
+    Posted: ${image.age}
+    Width: ${image.width}
+    Height: ${image.height}
+    Type: ${image.type.toUpperCase()}
   """
-
-  info.innerHTML = "<p>#{info.textContent.split('\n').join('</p><p>')}</p>" # HATREDCOPTER
-  # srsly, tho, I hate dirtying my hands with raw repetitive HTML
+  meta = $.html "<p>#{meta.split('\n').join('</p><p>')}</p>"
+  $.add info, meta
 
   tags = $.el 'p',
     textContent: "Tags: "
 
-  for tag in image.tags.split(' ')
+  for tag in image.tags.split ' '
     $.add tags, $.el 'a',
       href: "#{g.baseURL}page=post&s=list&tags=#{tag}"
       textContent: tag
@@ -379,8 +441,7 @@ setImage = (image) -> try
     updateImages()
 
 catch err
-  console.log err.message
-  console.log err.stack
+  $.throw err
 
 updateImages = ->
   queryURL = mkURL g.images.length / LIMIT
@@ -390,14 +451,37 @@ setupImages = -> try
   if @status isnt 200
     g.error = true
     return
-  
+
   posts = @response.posts
 
   mkImage post.post for post in posts
 
 catch err
-  console.log err.message
-  console.log err.stack
+  $.throw err
+
+handleVid = (vid) ->
+  el = $ '#gal-vid'
+  vidMeta = setInterval(
+    (-> try
+      el.textContent = "(#{formatTime vid.currentTime} / #{formatTime vid.duration})"
+    catch err
+      $.throw err
+    ), 10
+  )
+
+padNum = (num) ->
+  num = "#{num}"
+  while num.length < 2
+    num = "0#{num}"
+  return num
+
+formatTime = (timestamp) ->
+  msec = padNum Math.floor(timestamp * 100) % 100
+  sec  = padNum Math.floor(timestamp) % 60
+  min  = padNum Math.floor(timestamp / 60) % 60
+  hour = padNum Math.floor(timestamp / 3600) % 60
+
+  return hour + ":" + min + ":" + sec + "." + msec
 
 mkImage = (p) ->
   download = p.file_url
@@ -479,9 +563,10 @@ setup = ->
 
   return if g.attr.s is 'view'
 
-  g.baseURL = "#{g.host.protocol}//#{g.host.hostname}/index.php?"
+  path = "#{g.host.pathname.split('/')[...-1].join('/')}/"
+  g.baseURL = "#{g.host.protocol}//#{g.host.hostname}/#{path}index.php?"
 
-  # Setup Gelbooru API requirements.
+  # Setup Booru API requirements.
   g.attr.push 'page',  'dapi'
   g.attr.push 'q',     'index'
   g.attr.push 's',     'post'
@@ -514,5 +599,4 @@ setup = ->
 try
   setup()
 catch err
-  console.log err.message
-  console.log err.stack
+  $.throw err
