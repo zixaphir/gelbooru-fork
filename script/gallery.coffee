@@ -342,8 +342,6 @@ mkImgEl = (image) ->
         poster: image.thumb
         autoplay: true
         loop: true
-        width: image.width
-        height: image.height
         controls: true
 
       img.load()
@@ -388,14 +386,15 @@ setImage = (image) -> try
   a.focus()
 
   info = $ '.gal-ex-info', gal
+  info.textContent = ''
 
   meta = $.escape """
-    ID: ${image.id}
-    Score: ${image.score || 0}
-    Posted: ${image.age}
-    Width: ${image.width}
-    Height: ${image.height}
-    Type: ${image.type.toUpperCase()}
+    ID: #{image.id}
+    Score: #{image.score || 0}
+    Posted: #{image.age}
+    Width: #{image.width}
+    Height: #{image.height}
+    Type: #{image.type.toUpperCase()}
   """
   meta = $.html "<p>#{meta.split('\n').join('</p><p>')}</p>"
   $.add info, meta
