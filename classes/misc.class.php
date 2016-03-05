@@ -85,7 +85,7 @@
 
 			if(substr($body,-8,strlen($body)) != $eol.$eol) {
 				$body = $body.$eol.$eol;
-            }
+			}
 
 			if(@mail($reciver,$subject,$body,implode($eol, $headers))) {
 				return true;
