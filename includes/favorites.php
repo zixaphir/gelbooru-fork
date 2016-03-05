@@ -30,7 +30,7 @@
 		if($numrows < 1)
 			die("<h1>You have no favorites.</h1>");
 		$images = '';
-		$query = "SELECT t2.id, t2.image, t2.directory as dir, t2.tags, t2.owner, t2.score, t2.rating FROM $favorites_table as t1 JOIN $post_table AS t2 ON t2.id=t1.favorite WHERE t1.user_id='$id' LIMIT $page, $limit";
+		$query = "SELECT t2.id, t2.image, t2.directory, t2.tags, t2.owner, t2.score, t2.rating FROM $favorites_table as t1 JOIN $post_table AS t2 ON t2.id=t1.favorite WHERE t1.user_id='$id' LIMIT $page, $limit";
 		$result = $db->query($query);
 		while($row = $result->fetch_assoc())
 		{

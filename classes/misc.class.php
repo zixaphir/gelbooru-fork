@@ -72,19 +72,26 @@
 		{
 			require "config.php";
 			global $site_email, $site_url3;
-			$headers = "";
+			$headers = array();
 			$eol = "\r\n";
-			$headers .= "From: no-reply at ".$site_url3." <$site_email>".$eol;
-			$headers .= "X-Mailer:  Microsoft Office Outlook 12.0".$eol;
-			$headers .= "MIME-Version: 1.0".$eol;
-			$headers .= 'Content-Type: text/html; charset="UTF-8"'.$eol;
-			$headers .= "Content-Transfer-Encoding: 8bit".$eol.$eol;
-			if(substr($body,-8,strlen($body)) != $eol.$eol)
+
+			$headers[] = "MIME-Version: 1.0";
+			$headers[] = "Content-type: text/plain; charset=iso-8859-1";
+			$headers[] = "From: no-reply at ".$site_url3." <$site_email>";
+			$headers[] = "Subject: {$subject}";
+			$headers[] = "X-Mailer: PHP/".phpversion();
+			$headers[] = 'Content-Type: text/html; charset="UTF-8"';
+			$headers[] = "Content-Transfer-Encoding: 8bit";
+
+			if(substr($body,-8,strlen($body)) != $eol.$eol) {
 				$body = $body.$eol.$eol;
-			if(@mail($reciver,$subject,$body,$headers))
+            }
+
+			if(@mail($reciver,$subject,$body,implode($eol, $headers))) {
 				return true;
-			else
+			} else {
 				return false;
+			}
 		}
 
 		function windows_filename_fix($new_tag_cache)
@@ -274,7 +281,7 @@
 			}
 			return $output;
 		}
-		
+
 		function getThumb($image, $dir) {
 			$thumb = explode('.', $image);
 			array_pop($thumb);
@@ -282,6 +289,6 @@
 			$thumb = '/'.$dir."/thumbnail_".$thumb;
 			return $thumb;
 		}
-		
+
 	}
 ?>
