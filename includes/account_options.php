@@ -60,7 +60,7 @@
 		if(isset($_POST['my_tags']) && $_POST['my_tags'] != "")
 		{
 			$user = new user();
-			setcookie("tags",str_replace(" ","%20",str_replace("'","&#039;",$_POST['my_tags'])),time()+60*60*24*365);
+			$user->session_tags($_POST['my_tags']);
 			$new_my_tags = $_POST['my_tags'];
 			if($user->check_log())
 			{

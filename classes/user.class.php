@@ -5,7 +5,7 @@
 
 		function __construct()
 		{
-			
+
 		}
 
 		function hashpass($pass)
@@ -66,7 +66,7 @@
 				$row = $result->fetch_assoc();
 				setcookie("user_id",$row['id'],time()+60*60*24*365);
 				setcookie("pass_hash",$pass,time()+60*60*24*365);
-				setcookie("tags",$row['my_tags'],time()+60*60*24*365);				
+				$this->session_tags($row['my_tags']);
 				if(!isset($_COOKIE['tag_blacklist']) && $row['tags'] != "")
 					setcookie("tag_blacklist",$row['tags'],time()+60*60*24*365);
 				return true;
@@ -75,15 +75,19 @@
 				return false;
 		}
 
+		function session_tags($tags) {
+			setcookie("tags",str_replace(" ","%20",str_replace("'","&#039;",$tags)),time()+60*60*24*365);
+		}
+
 		function logout()
 		{
 			global $site_url;
 			setcookie("user_id","",time()-60*60*24*365);
 			setcookie("pass_hash","",time()-60*60*24*365);
-			setcookie("tags","",time()-60*60*24*365);			
+			setcookie("tags","",time()-60*60*24*365);
 			header('Location: index.php?page=account&s=home');
 		}
-		
+
 		function check_log()
 		{
 			global $db, $user_table, $checked_username, $checked_user_id, $checked_user_group;
@@ -106,7 +110,7 @@
 				return false;
 			}
 		}
-		
+
 		function gotpermission($column)
 		{
 			global $db, $user_table, $group_table, $checked_user_group;
@@ -124,7 +128,7 @@
 			else
 				return false;
 		}
-		
+
 		function loadpermissions()
 		{
 			if(isset($_COOKIE['user_id']))
@@ -146,7 +150,7 @@
 				return $row;
 			}
 		}
-		
+
 		function update_password($id, $pass)
 		{
 			global $db, $user_table;
@@ -157,7 +161,7 @@
 			else
 				return false;
 		}
-		
+
 		function banned_ip($ip)
 		{
 			global $db, $banned_ip_table, $row;
@@ -169,6 +173,6 @@
 			else
 				return false;
 		}
-		
+
 	}
 ?>
