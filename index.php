@@ -33,6 +33,7 @@
 			case 'forum':
 			case 'alias':
 			case 'reset_password':
+			case 'users':
 				require "includes/" . $_GET["page"] . ".php";
 				break;
 			default:

@@ -349,10 +349,22 @@ function filterPosts(posts) {
 
 		if (hidden) 
 		{
-			//showHide('p' + i)
-			Element.hide('p' + i);
-			ignored.push('p' + i)
-			pignored[i] = i
+            
+            try {
+                //showHide('p' + i)
+                Element.hide('p' + i);
+                ignored.push('p' + i);
+                pignored[i] = i
+            } catch(e) {
+                console.log(e.message);
+            }
+            try {
+                Element.hide('np' + i);
+                ignored.push('np' + i);
+                pignored[i] = i
+            } catch(e) {
+                console.log(e.message);
+            }
 		}
 	}
 

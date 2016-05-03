@@ -30,6 +30,7 @@
 				<li><a href="'.$site_url.'/index.php?page=account">My Account</a></li>
 				<li><a href="'.$site_url.'/index.php?page=post&amp;s=list&amp;tags=all">Posts</a></li>
 				<li><a href="'.$site_url.'/index.php?page=comment&amp;s=list">Comments</a></li>
+				<li><a href="'.$site_url.'/index.php?page=users&amp;s=list">Users</a></li>
 				<li><a href="'.$site_url.'/index.php?page=alias&amp;s=list">Alias</a></li>
 				<li><a href="'.$site_url.'/index.php?page=forum&amp;s=list">Forum</a></li>
 				<li><a href="'.$site_url.'/index.php?page=post&amp;s=random">Random</a></li>

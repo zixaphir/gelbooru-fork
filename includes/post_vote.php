@@ -44,5 +44,6 @@
 		$row = $result->fetch_assoc();
 		echo $row['score'];
 		$result->free_result();
+		exit;
 	}
 ?>

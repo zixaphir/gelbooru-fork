@@ -241,14 +241,14 @@ footer {
   clear: both;
 }
 
-div.sidebar {
+aside.sidebar {
   width: 180px;
   margin-right: 1em;
   float: left;
   overflow: hidden;
 }
 
-div.sidebar li {
+aside.sidebar li {
   list-style-type: none;
   margin: 0;
 }
@@ -257,6 +257,11 @@ article {
   float: left;
   width: 78%;
   min-width: calc(100% - 200px);
+}
+
+#user-albums article {
+  width: 100%;
+  float: none;
 }
 
 div.option {
@@ -288,6 +293,32 @@ span.thumb {
   width: 180px;
   display: inline-block;
   float: left;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+}
+
+#user-albums span.thumb {
+  height: 160px;
+}
+
+span.thumb img {
+  max-height: 100%;  
+  max-width: 100%; 
+  width: auto;
+  height: auto;
+  position: absolute;  
+  top: 0;  
+  bottom: 0;  
+  left: 0;  
+  right: 0;  
+  margin: auto;
+}
+
+span.nthumb {
+  width: 180px;
+  display: inline-block;
+  margin-bottom: 1em;
   text-align: center;
   vertical-align: middle;
 }
