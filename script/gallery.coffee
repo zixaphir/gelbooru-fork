@@ -474,11 +474,14 @@ padNum = (num) ->
     num = "0#{num}"
   return num
 
-formatTime = (timestamp) ->
-  msec = padNum Math.floor(timestamp * 100) % 100
-  sec  = padNum Math.floor(timestamp) % 60
-  min  = padNum Math.floor(timestamp / 60) % 60
-  hour = padNum Math.floor(timestamp / 3600) % 60
+formatTime = (t) ->
+  f = (x) -> Math.floor x
+  g = (x) -> return padNum x % 60
+
+  msec = padNum f(t * 100) % 100
+  sec  = g(f(t))
+  min  = g(f(t / 60))
+  hour = g(f(t / 3600))
 
   return hour + ":" + min + ":" + sec + "." + msec
 
