@@ -33,7 +33,7 @@ var posts = {}; var pignored = {};
 	else
 		$page = 0;
 	if(isset($_GET['sort']) && $_GET['sort'] != "") {
-		$sort = 'newest';
+		$sort = $_GET['sort'];
 	}
 	$search = new search();
 	$no_cache = null;
