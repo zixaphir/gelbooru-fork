@@ -206,7 +206,7 @@ Filter content you don\'t want to see with "-<i>tag</i>". For instance, -loli wo
 			echo $script;
 
 			//Pagination function. This should work for the whole site... Maybe.
-			print $misc->pagination($_GET['page'],$_GET['s'],$id,$limit,$page_limit,$numrows,$_GET['pid'],$_GET['tags']);
+			print $misc->pagination($_GET['page'],$_GET['s'],$id,$limit,$page_limit,$numrows,$_GET['pid'],$_GET['tags'],false,$sort);
 
 		}
 		/* XXX FIXME
