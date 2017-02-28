@@ -220,7 +220,7 @@
 				return false;
 		}
 
-		function pagination($page_type,$sub = false,$id = false,$limit = false,$page_limit = false,$count = false,$page = false,$tags = false, $query = false)
+		function pagination($page_type,$sub = false,$id = false,$limit = false,$page_limit = false,$count = false,$page = false,$tags = false, $query = false, $sort = 'newest')
 		{
 			$lowerlimit = 0;
 			$has_id = "";
@@ -260,7 +260,7 @@
 			if($page != 0 && !((($page+$limit) / $limit) > $pages))
 			{
 				$back_page = $page - $limit;
-				$output .=  '<a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid=0" alt="first page">&lt;&lt;</a><a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid='.$back_page.'" alt="back">&lt;</a>';
+				$output .=  '<a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid=0" alt="first page">&lt;&lt;</a><a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid='.$back_page.'&amp;sort='.$sort.'" alt="back">&lt;</a>';
 			}
 			for($i=$start; $i <= $tmp_limit; $i++)
 			{
@@ -270,14 +270,14 @@
 					if ($ppage == $page)
 						$output .=  ' <b>'.$i.'</b> ';
 					else
-						$output .=  '<a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid='.$ppage.'">'.$i.'</a>';
+						$output .=  '<a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid='.$ppage.'&amp;sort='.$sort.'">'.$i.'</a>';
 				}
 			}
 			if (!((($page+$limit) / $limit) >= $pages) && $pages != 1)
 			{
 				// If last page don't give next link.
 				$next_page = $page + $limit;
-				$output .= '<a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid='.$next_page.'" alt="next">&gt;</a><a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid='.$lastpage.'" alt="last page">&gt;&gt;</a>';
+				$output .= '<a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid='.$next_page.'&amp;sort='.$sort.'" alt="next">&gt;</a><a href="?page='.$page_type.''.$sub.''.$query.''.$has_id.''.$has_tags.'&amp;pid='.$lastpage.'&amp;sort='.$sort.'" alt="last page">&gt;&gt;</a>';
 			}
 			return $output;
 		}
