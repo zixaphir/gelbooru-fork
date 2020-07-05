@@ -145,6 +145,8 @@ var posts = {}; var pignored = {};
 			//Limit main tag listing to $tags_limit tags. Keep the loop down to the minimum really.
 			while($row = $result->fetch_assoc())
 			{
+				$post = new post();
+				$has_children = $post->has_children($row['id']) ? ' data-has_children="true"' : '';
 				$tags = mb_trim($row['tags']);
 				if($tcount <= $tags_limit)
 				{
@@ -158,7 +160,7 @@ var posts = {}; var pignored = {};
 						}
 					}
 				}
-				$images .= '<span class="thumb"><a id="p'.$row['id'].'" href="index.php?page=post&amp;s=view&amp;id='.$row['id'].'"><img src="'.$thumbnail_url.$misc->getThumb($row['image'], $row['directory']).'" alt="post" border="0" title="'.$row['tags'].' score:'.$row['score'].' rating:'. $row['rating'].'"/></a></span>';
+				$images .= '<span class="thumb"><a id="p'.$row['id'].'" href="index.php?page=post&amp;s=view&amp;id='.$row['id'].'"><img src="'.$thumbnail_url.$misc->getThumb($row['image'], $row['directory']).'" alt="post"'.$has_children.' border="0" title="'.$row['tags'].' score:'.$row['score'].' rating:'. $row['rating'].'"/></a></span>';
 				$script .= 'posts['.$row['id'].'] = {\'tags\':\''.strtolower(str_replace('\\',"&#92;",str_replace("'","&#039;",$tags))).'\'.split(/ /g), \'rating\':\''.$row['rating'].'\', \'score\':'.$row['score'].', \'user\':\''.str_replace('\\',"&#92;",str_replace(' ','%20',str_replace("'","&#039;",$row['owner']))).'\'};';
 			}
 			$result->free_result();
