@@ -38,7 +38,7 @@
 	//posts vote table
 	$post_vote_table = "post_votes";
 	//group table
-	$group_table = "groups";
+	$group_table = "gel_groups";
 	//tag historys
 	$tag_history_table = "tag_history";
 	//comment count table
